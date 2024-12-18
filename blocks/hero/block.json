@@ -1,0 +1,15 @@
+{
+  "name": "acf/hero-home",
+  "title": "Hero Home",
+  "description": "A custom testimonial block that uses ACF fields.",
+  "category": "formatting",
+  "icon": "admin-comments",
+  "keywords": ["hero", "top"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "hero.php"
+  },
+  "supports": {
+    "anchor": true
+  }
+}

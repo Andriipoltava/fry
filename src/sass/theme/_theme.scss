@@ -1,0 +1,67 @@
+body {
+  --yith-wcan-filters_colors_background: transparent
+}
+
+:focus-visible {
+  outline: -webkit-focus-ring-color auto 0px;
+}
+
+.wpcf7 textarea {
+  border-radius: 25px;
+
+}
+
+#woocommerce-wrapper h2 {
+  @extend h4;
+}
+
+.btn-outline-primary,
+.btn-light {
+  --bs-btn-bg: #fff;
+}
+
+.container-fluid {
+  @include media-breakpoint-up(xxl) {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+
+.search-box {
+  position: relative;
+
+  input {
+    transition: width .3s ease;
+    width: 150px;
+
+    &:focus {
+      width: 200px;
+
+    }
+  }
+
+}
+
+.yith-wcan-filter[data-taxonomy='product_cat'] li.filter-item.checkbox.active.level-0 > label {
+  display: none;
+}
+
+.yith-wcan-filters .yith-wcan-filter[data-taxonomy='product_cat'] .filter-item.level-0.active ul {
+  padding-left: 0;
+}
+
+.yith-wcan-filter[data-taxonomy='product_cat']:has(li.filter-item.checkbox.active.level-1) {
+  display: none;
+}
+
+.yith-wcan-filter[data-taxonomy='product_cat'] li.filter-item.checkbox.level-0 {
+  display: none;
+}
+
+.yith-wcan-filter[data-taxonomy='product_cat'] li.filter-item.checkbox.level-0:has(.level-1) {
+  display: block;
+}
+
+.wpml-ls-legacy-list-vertical{
+  margin-bottom: 0;
+}

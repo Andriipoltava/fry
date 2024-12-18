@@ -1,0 +1,62 @@
+.btn {
+  text-transform: uppercase;
+}
+
+.nav-light {
+  --bs-nav-link-color: $white;
+}
+
+.list-links a,
+.link {
+  &:hover {
+    color: $navbar-light-hover-color !important;
+  }
+}
+
+.link {
+  font-family: neue-haas-grotesk-display, sans-serif;
+  font-weight: 700;
+  text-decoration-line: underline;
+  text-transform: uppercase;
+}
+
+.z-index-111 {
+  z-index: 111;
+}
+
+.zoom-img-hover {
+
+  img {
+    transition: all 1s;
+  }
+
+  &:hover img {
+    transform: scale(1.1);
+  }
+}
+
+.transition-all {
+  transition: all .3s;
+}
+
+.vh-lg {
+  @include media-breakpoint-down(lg) {
+    height: auto !important;
+  }
+}
+
+.mw-auto {
+  max-width: none !important;
+}
+
+.font-base {
+  font-family: $font-family-base;
+}
+
+.top-110 {
+  top: 110px;
+}
+
+.top-55 {
+  top: 55px;
+}

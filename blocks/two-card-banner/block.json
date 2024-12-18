@@ -1,0 +1,15 @@
+{
+  "name": "acf/two-card-banner",
+  "title": "Two Card Banner",
+  "description": "A custom two-card-banner block that uses ACF fields.",
+  "category": "formatting",
+  "icon": "admin-comments",
+  "keywords": ["two-card-banner", "top"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "two-card-banner.php"
+  },
+  "supports": {
+    "anchor": true
+  }
+}

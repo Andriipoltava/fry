@@ -1,0 +1,83 @@
+
+.text {
+  &-l-medium {
+    font-weight: 500;
+    font-size: 1.125rem;
+    letter-spacing: -1%;
+    line-height: 166%;
+    @include media-breakpoint-between(sm,xxl){
+      font-size: 14px;
+    }
+  }
+
+  &-l-regular {
+    font-weight: 400;
+    font-size: 1.125rem;
+    letter-spacing: -1%;
+    line-height: 166%;
+    @include media-breakpoint-between(sm,xxl){
+      font-size: 14px;
+    }
+  }
+
+  &-m-medium {
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: -1%;
+    line-height: 162.5%;
+    @include media-breakpoint-between(sm,xxl){
+      font-size: 14px;
+    }
+  }
+
+  &-m-regular {
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: -1%;
+    line-height: 162.5%;
+    @include media-breakpoint-between(sm,xxl){
+      font-size: 14px;
+    }
+  }
+
+  &-s-medium {
+    font-weight: 500;
+    font-size: 0.9375rem;
+    letter-spacing: -1%;
+    line-height: 150%;
+    @include media-breakpoint-between(sm,xxl){
+      font-size: max(0.76875rem, 14px);
+    }
+  }
+
+  &-s-regular {
+    font-weight: 400;
+    font-size: 0.9375rem;
+    letter-spacing: -1%;
+    line-height: 150%;
+    @include media-breakpoint-between(sm,xxl){
+      font-size: max(0.76875rem, 14px);
+    }
+  }
+}
+
+.uppercase-subtitles {
+  letter-spacing: 0;
+  text-transform: uppercase;
+  line-height: 100%;
+  font-size: 1rem;
+  font-weight: 600;
+  @include media-breakpoint-between(sm,xxl){
+    font-size: max(0.7175rem, 14px);
+  }
+}
+
+
+.fw-medium {
+  font-weight: 500;
+}
+
+.fw-simebold {
+  font-weight: 600;
+}
+

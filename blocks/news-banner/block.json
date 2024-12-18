@@ -1,0 +1,15 @@
+{
+  "name": "acf/news-banner",
+  "title": "New Banner",
+  "description": "A custom New-banner block that uses ACF fields.",
+  "category": "formatting",
+  "icon": "admin-comments",
+  "keywords": ["News-banner", "top"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "news-banner.php"
+  },
+  "supports": {
+    "anchor": true
+  }
+}

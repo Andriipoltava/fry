@@ -1,0 +1,84 @@
+// Use this file to overwrite the basic Bootstrap variables and add your own variables
+// To overwrite a Bootstrap variable you don´t have to touch the Bootstrap folder.
+// Just copy a variable from src/sass/assets/bootstrap5/_variables.scss, paste it here and edit the value.
+
+$black: #000000;
+$white: #fff;
+$secondary: #555555;
+$danger: #333333;
+$danger: #DDDDDD;
+$light: #F0F2F2;
+$danger: #9A9DB1;
+$danger: #030712;
+$danger: #374151;
+$danger: #C8102E;
+
+$purple: #5533ff; // Thats a sample how you could change a BootStrap variable.
+$primary: $black; // Once we've changed the value, we'll also make it the primary brand color.
+
+
+// NAv
+
+$nav-link-font-weight: 700;
+$nav-link-font-size: 12px;
+$navbar-light-color: $black;
+$navbar-dark-color: $white;
+$navbar-light-hover-color: $danger;
+$navbar-dark-hover-color: $danger;
+$nav-link-hover-color: $danger;
+
+$dropdown-border-radius: 0;
+$dropdown-bg: transparent;
+$dropdown-link-hover-color: $navbar-light-hover-color;
+$dropdown-link-hover-bg: none;
+$dropdown-font-size: 0.8rem;
+$dropdown-padding-y: 0;
+$dropdown-border-width: 0;
+// Body Background
+$body-bg: $light;
+
+// btn
+$btn-border-radius: 62.4375rem;
+$btn-padding-x: 24px;
+$btn-padding-y: 12px;
+$btn-font-family: neue-haas-grotesk-display, sans-serif;
+$btn-font-size: .75rem;
+//$btn-border-color: $btn-color
+
+$headings-font-family: neue-haas-grotesk-display, sans-serif;
+$headings-font-weight: 700;
+$h1-font-size: 6.5rem;
+$h2-font-size: 5rem;
+$h3-font-size: 3rem;
+$h4-font-size: 2.5rem;
+$h5-font-size: 2rem;
+
+
+$container-max-widths: (
+        sm: 540px,
+        md: 720px,
+        lg: 960px,
+        xl: 1140px,
+        xxl: 1277px
+);
+$grid-breakpoints: (
+        xs: 0,
+        sm: 576px,
+        md: 768px,
+        lg: 992px,
+        xl: 1200px,
+        xxl: 1460px
+);
+
+$input-bg: $white;
+$input-border-radius: 50px;
+$input-padding-y: 10px;
+$input-padding-x: 20px;
+
+$accordion-border-radius: 0;
+$accordion-button-bg: transparent;
+$accordion-button-active-bg: transparent;
+$accordion-button-padding-x: 0;
+$accordion-body-padding-x: 0;
+$accordion-border-width: 0;
+$accordion-btn-focus-box-shadow:none;

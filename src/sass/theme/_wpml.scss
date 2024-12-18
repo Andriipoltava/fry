@@ -1,0 +1,15 @@
+nav ul[class*="menu"] li.wpml-ls-menu-item ul.sub-menu,
+nav ul[class*="menu"] li.wpml-ls-menu-item ul.sub-menu li a {
+  width: auto;
+  min-width: 30px;
+}
+
+.wpml-ls-display{
+  display: none;
+}
+.wpml-ls-legacy-list-vertical{
+  margin-bottom: 0;
+}
+.wpml-ls-legacy-list-vertical.wpml-ls-statics-footer{
+  margin-bottom: 0;
+}

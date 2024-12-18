@@ -1,0 +1,15 @@
+{
+  "name": "acf/single-template",
+  "title": "Single Template",
+  "description": "A custom Single template block that uses ACF fields.",
+  "category": "formatting",
+  "icon": "admin-comments",
+  "keywords": ["info-banner", "top"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "single-template.php"
+  },
+  "supports": {
+    "anchor": true
+  }
+}
