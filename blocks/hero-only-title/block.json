@@ -1,0 +1,15 @@
+{
+  "name": "acf/hero-only-title",
+  "title": "Hero Only Title",
+  "description": "A custom Hero Only Title block that uses ACF fields.",
+  "category": "formatting",
+  "icon": "admin-comments",
+  "keywords": ["hero", "top"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "hero-only-title.php"
+  },
+  "supports": {
+    "anchor": true
+  }
+}

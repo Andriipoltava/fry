@@ -24,6 +24,7 @@ $fry_theme_includes = array(
     '/customizer.php',                      // Customizer additions.
     '/custom-comments.php',                 // Custom Comments file.
     '/class-wp-bootstrap-navwalker.php',    // Load custom WordPress nav walker. Trying to get deeper navigation? Check out: https://github.com/fry_theme/fry_theme/issues/567.
+    '/class-mobile-navwalker.php',    // Load custom WordPress nav walker. Trying to get deeper navigation? Check out: https://github.com/fry_theme/fry_theme/issues/567.
     '/New_Walker_Nav_Menu.php',    // Load custom WordPress nav walker. Trying to get deeper navigation? Check out: https://github.com/fry_theme/fry_theme/issues/567.
     '/editor.php',                          // Load Editor functions.
     '/block-editor.php',                    // Load Block Editor functions.
@@ -36,7 +37,12 @@ if (class_exists('WooCommerce')) {
     $fry_theme_includes[] = '/woocommerce.php';
 }
 
+
+
 // Load Jetpack compatibility file if Jetpack is activiated.
+if (class_exists('Jetpack')) {
+    $fry_theme_includes[] = '/jetpack.php';
+}// Load Jetpack compatibility file if Jetpack is activiated.
 if (class_exists('Jetpack')) {
     $fry_theme_includes[] = '/jetpack.php';
 }
@@ -61,7 +67,9 @@ function tt3child_register_acf_blocks()
      */
     register_block_type(__DIR__ . '/blocks/testimonial');
     register_block_type(__DIR__ . '/blocks/hero');
+    register_block_type(__DIR__ . '/blocks/hero-only-title');
     register_block_type(__DIR__ . '/blocks/carousel');
+    register_block_type(__DIR__ . '/blocks/carousel-gallery');
     register_block_type(__DIR__ . '/blocks/top-banner');
     register_block_type(__DIR__ . '/blocks/two-card-banner');
     register_block_type(__DIR__ . '/blocks/news-banner');
@@ -69,6 +77,7 @@ function tt3child_register_acf_blocks()
     register_block_type(__DIR__ . '/blocks/only-title');
     register_block_type(__DIR__ . '/blocks/history-banner');
     register_block_type(__DIR__ . '/blocks/single-template');
+    register_block_type(__DIR__ . '/blocks/content-image-banner');
 }
 
 // Here we call our tt3child_register_acf_block() function on init.
@@ -116,3 +125,14 @@ add_filter('woocommerce_variation_prices_regular_price', 'priceWOO');
 
 /* language dropdown */
 
+//add_filter( 'current_theme_supports-wc-product-gallery-zoom', '__return_false' );
+//add_filter( 'current_theme_supports-wc-product-gallery-slider', '__return_false' );
+//add_filter( 'current_theme_supports-wc-product-gallery-lightbox', '__return_false' );
+
+add_filter('the_title', 'woo_the_title', 10, 2);
+function woo_the_title($post_title, $post_id)
+{
+
+    return !is_admin() && get_field('custom_title', $post_id) ? get_field('custom_title', $post_id) : $post_title;
+
+}

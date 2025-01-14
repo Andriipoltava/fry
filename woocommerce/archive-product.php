@@ -43,7 +43,7 @@ get_header('shop');
         ?>
         <div class="offcanvas offcanvas-end " id="offcanvasFilter" aria-labelledby="offcanvasFilterLabel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasFilterLabel"><?php echo 'Filter'; ?></h5>
+                <h5 class="offcanvas-title" id="offcanvasFilterLabel"><?php  echo esc_html__('Filter', 'fry_theme')?></h5>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
                         aria-label="Close"></button>
             </div>
@@ -56,7 +56,7 @@ get_header('shop');
             </div>
         </div>
 
-        <div class="container-fluid main-content">
+        <div class="container-fluid main-content pt-4 pt-lg-5">
             <div class="row g-4">
 
                 <div class="col-lg-12  d-lg-none d-flex flex-wrap justify-content-between">
@@ -93,11 +93,11 @@ get_header('shop');
   s1.5-0.5,1.7-1.2h4.8c0.3,0,0.5-0.2,0.5-0.5S9.8,5.8,9.5,5.8z M3,7C2.6,7,2.2,6.7,2.2,6.2S2.6,5.5,3,5.5s0.8,0.3,0.8,0.8S3.4,7,3,7z
   "></path>
                         </svg>
-                        <span class="show-t"><?php echo esc_html__('Show Filters', 'woocommerce'); ?></span>
-                        <span class="hide-t"><?php echo esc_html__('Hide Filters', 'woocommerce'); ?></span>
+                        <span class="show-t"><?php echo esc_html__('Show Filters', 'fry_theme'); ?></span>
+                        <span class="hide-t"><?php echo esc_html__('Hide Filters', 'fry_theme'); ?></span>
                     </button>
                 </div>
-                <div class="col-lg-8 woocommerce_before_shop_loop d-lg-block d-none">
+                <div class="col-lg-8 woocommerce_before_shop_loop d-lg-flex justify-content-end d-none">
                     <?php
 
                     /**
@@ -115,7 +115,7 @@ get_header('shop');
                 </div>
             </div>
             <div class="row w-100 g-xxl-5 g-4  pt-4">
-                <div class="col-lg-4 col-xxl-3 filter-bar  d-lg-block d-none">
+                <div class="col-md-4 col-lg-3 filter-bar  d-lg-block d-none">
                     <?php echo do_shortcode('[yith_wcan_filters slug="default-preset"]'); ?>
                 </div>
                 <div class="col-lg-8 col-xxl-9 woo-loops">

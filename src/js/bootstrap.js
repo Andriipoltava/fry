@@ -11,6 +11,7 @@ import Tab from 'bootstrap/js/dist/tab'
 import Toast from 'bootstrap/js/dist/toast'
 import Tooltip from 'bootstrap/js/dist/tooltip'
 
+
 export {
 	Alert,
 	Button,

@@ -34,13 +34,12 @@ if (!empty($block['align'])) {
     $class_name .= ' align' . $block['align'];
 }
 
-
+$class_ar='arv-13-lg arv-14';
 ?>
 
 <div <?php echo esc_attr($anchor); ?>class="<?php echo esc_attr($class_name); ?> container-fluid  px-0 text-white overflow-hidden">
     <div class="row align-items-lg-end ">
-        <div class="col-lg-6 p-5 position-relative overflow-hidden zoom-img-hover" style="    aspect-ratio: 4 / 3;
-    min-height: 450px;">
+        <div class="col-lg-6 p-lg-5 px-4 py-5 position-relative overflow-hidden zoom-img-hover <?php echo $class_ar?>" style="">
             <div class="py-xl-5 h-100 d-flex align-items-end">
                 <?php if ($image_right) echo "<div class=' '> " . wp_get_attachment_image($image_right['ID'], 'full', null, ['class' => 'position-absolute start-0 top-0 w-100 h-100', 'style' => 'object-fit: cover;']) . "</div>"; ?>
                 <div class="position-relative pt-5 mt-5">
@@ -61,8 +60,7 @@ if (!empty($block['align'])) {
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 p-5 position-relative overflow-hidden zoom-img-hover" style="    aspect-ratio: 4 / 3;
-    min-height: 450px;">
+        <div class="col-lg-6 p-lg-5 px-4 py-5 position-relative overflow-hidden zoom-img-hover <?php echo $class_ar?>" style="   ">
             <div class="py-xl-5 h-100 d-flex align-items-end">
                 <?php if ($image) echo "<div class=' '> " . wp_get_attachment_image($image['ID'], 'full', null, ['class' => 'position-absolute start-0 top-0 w-100 h-100', 'style' => 'object-fit: cover;']) . "</div>"; ?>
                 <div class="position-relative pt-5 mt-5">

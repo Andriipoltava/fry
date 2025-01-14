@@ -5411,6 +5411,11 @@ progress {
 figure.wp-block-image,
 .wp-block-image > figure {
   display: block;
+  margin-bottom: 0;
+}
+figure.wp-block-image img,
+.wp-block-image > figure img {
+  margin-bottom: 0;
 }
 body.understrap-no-sidebar .alignwide,
 body.understrap-no-sidebar .alignfull,

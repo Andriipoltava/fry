@@ -8,21 +8,39 @@
 
 // Exit if accessed directly.
 defined('ABSPATH') || exit;
-
+$call_for_our_header = get_field('call_for_our_header', 'options');
 $container = get_theme_mod('fry_theme_container_type');
 ?>
-<div class="bg-dark">
-    <div class="container-fluid text-white  py-2">
+<div class="bg-secondary">
+    <div class="container-fluid text-white  py-sm-2 py-1">
         <!--        <span> Lang</span>-->
         <div class="row justify-content-between">
-            <div class="col-6">
-                <div id="flags_language_selector" class="left">
-                    <?php dynamic_sidebar( 'statichero' ); ?>
-                </div>
+            <div class="col-auto">
+
             </div>
             <!--            <div class="col-auto 1">-->
             <?php //do_shortcode('[wpml-string context="some-unique-site-context" name="This post is also available in"]This post is also available in:[/wpml-string]'); ?><!--</div>-->
-            <div class="col-6 d-flex justify-content-end"><a href="#" class="btn btn-primary btn-sm rounded-4 px-3">Зв’язатися з нами</a></div>
+            <div class="col-lg-6 col-12  d-flex justify-content-md-end justify-content-between align-items-center">
+                <div id="flags_language_selector_top" class="left">
+                    <?php dynamic_sidebar('statichero'); ?>
+                </div>
+
+
+                <?php if ($call_for_our_header) {
+                    $link_url = $call_for_our_header['url'];
+                    $link_title = $call_for_our_header['title'];
+                    $link_target = $call_for_our_header['target'] ? $call_for_our_header['target'] : '_self'; ?>
+                    <a href="<?php echo esc_url($link_url); ?>" target="<?php echo esc_attr($link_target); ?>"
+                       class="text-white  text-decoration-none d-flex align-items-center py-1 lh-1 mt-1 d-flex align-items-sm-start">
+                        <i class="fa fa-phone  pe-2" style="    font-size: 18px;"></i>
+                        <span class=""> <?php echo esc_html($link_title); ?></span>
+
+                    </a>
+                <?php }; ?>
+                <div class="ms-3 d-md-block ">
+                    <?php get_template_part('global-templates/navbar', 'search'); ?>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -37,7 +55,7 @@ $container = get_theme_mod('fry_theme_container_type');
     </h2>
 
 
-    <div class="container-fluid  justify-content-between">
+    <div class="container-fluid  justify-content-between align-items-md-start">
 
 
         <!-- Your site branding in the menu -->
@@ -61,7 +79,11 @@ $container = get_theme_mod('fry_theme_container_type');
 
         <div class="offcanvas offcanvas-start bg-white d-xl-none " tabindex="-1" id="navbarNavOffcanvas">
 
-            <div class="offcanvas-header justify-content-end">
+            <div class="offcanvas-header justify-content-between align-items-center">
+                <div class="text-dark offcanvas-titles">
+                    <h6 class="mb-0 offcanvas-title collapse show"><?php esc_attr_e('Menu', 'fry_theme'); ?></h6>
+                    <h6 class="mb-0 offcanvas-back collapse "><?php esc_attr_e('Back', 'fry_theme'); ?></h6>
+                </div>
                 <button
                         class="btn-close text-reset"
                         type="button"
@@ -71,17 +93,17 @@ $container = get_theme_mod('fry_theme_container_type');
             </div><!-- .offcancas-header -->
 
             <!-- The WordPress Menu goes here -->
-            <div class="offcanvas-body align-items-md-center justify-content-center ">
+            <div class="offcanvas-body overflow-hidden align-items-md-center justify-content-center position-relative">
                 <?php wp_nav_menu(
                     array(
                         'theme_location' => 'mobile',
-                        'container_class' => 'navbar navbar-light',
+                        'container_class' => '',
                         'container_id' => '',
                         'menu_class' => 'navbar-nav justify-content-start flex-grow-1 pe-3 ',
                         'fallback_cb' => '',
                         'menu_id' => 'mobile-me',
                         'depth' => 4,
-                        'walker' => new Understrap_WP_Bootstrap_Navwalker(),
+                        'walker' => new Mobile_WP_Bootstrap_Navwalker(),
                     )
                 );
                 ?>
@@ -91,11 +113,10 @@ $container = get_theme_mod('fry_theme_container_type');
 
         </div><!-- .offcanvas -->
 
-        <div class="d-flex align-items-md-center">
+        <div class=" d-flex align-items-md-center">
 
-            <?php get_template_part('global-templates/navbar', 'search-and-card'); ?>
 
-            <button
+        <button
                     class="navbar-toggler d-xl-none ms-4"
                     type="button"
                     data-bs-toggle="offcanvas"

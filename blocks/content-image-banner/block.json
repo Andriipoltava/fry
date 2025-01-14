@@ -1,0 +1,15 @@
+{
+  "name": "acf/content-image-banner",
+  "title": "Content left Image Right Banner",
+  "description": "A custom  block that uses ACF fields.",
+  "category": "formatting",
+  "icon": "admin-comments",
+  "keywords": ["info-banner", "top"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "content-image-banner.php"
+  },
+  "supports": {
+    "anchor": true
+  }
+}

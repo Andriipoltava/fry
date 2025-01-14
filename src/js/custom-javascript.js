@@ -13,13 +13,15 @@ new SiteHeader
 document.querySelectorAll('.products-slider').forEach(function (item) {
 
     item.querySelectorAll('.loop-product-column').forEach(e => e.classList.add('swiper-slide'))
-
+    let mobileCount = item.classList.contains('product')
+    let countDesctop = item.dataset.columns;
+    countDesctop = countDesctop + '.2';
+    // console.log(countDesctop)
 
     const swiper = new Swiper(item, {
 
         spaceBetween: 12,
-
-        slidesPerView: 1.2,
+        slidesPerView: mobileCount ? 2.2 : 1.2,
         cssMode: true,
         loop: false,
         scrollbar: {
@@ -35,8 +37,7 @@ document.querySelectorAll('.products-slider').forEach(function (item) {
         breakpoints: {
             768: {
                 spaceBetween: 25,
-                slidesPerView: 3.2
-
+                slidesPerView: countDesctop
             }
 
         },
@@ -69,65 +70,74 @@ document.querySelectorAll('.products-slider').forEach(function (item) {
     }, true);
 
 })
+document.querySelectorAll('.swiper-mobile-product').forEach(function (item) {
+
+    const swiper = new Swiper(item, {
+        spaceBetween: 0,
+        // freeMode: {
+        //     enabled: true,
+        //     sticky: true,
+        // },
+        slidesPerView:1,
+        cssMode: true,
+        loop: false,
+
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+
+        },
+
+        slideContent: '.swiper-wrapper',
+    })
+
+
+})
 
 jQuery(document).ready(function ($) {
+
+    var navbarNavOffcanvas = document.getElementById('navbarNavOffcanvas')
+    var offcanvasBlack = document.querySelector('.offcanvas-back ')
+
+    var collapseElementList = [].slice.call(navbarNavOffcanvas.querySelectorAll('.collapse-menu'))
+
+
+    collapseElementList.map(function (collapseEl) {
+        // return new understrap.Collapse(collapseEl)
+
+        collapseEl.addEventListener('show.bs.collapse', function () {
+
+            $('.offcanvas-title').collapse('hide');
+            $(offcanvasBlack).collapse('show');
+
+        })
+    })
+    offcanvasBlack.addEventListener('click', function () {
+
+        $('.offcanvas-title').collapse('show');
+        $(offcanvasBlack).collapse('hide');
+        var collapseElementListActive = [].slice.call(navbarNavOffcanvas.querySelectorAll('.collapse-menu.show'))
+
+        collapseElementListActive.forEach(function (collapseEl) {
+            console.log(collapseEl)
+            $(collapseEl).collapse('hide');
+        })
+    })
+
+
 
     $('.variation-radios').on('change', function () {
         $('.variation-reset').removeClass('d-none')
     })
+
     $('.variation-reset .reset_variations').on('click', function () {
         $('.variation-row:not(.d-none) input').each(function () {
             $(this).prop('checked', false)
         })
         $('.variation-reset').addClass('d-none')
     })
-    var pswpElement = document.querySelectorAll('.pswp')[0];
 
-    $('body').on('click', 'div.woocommerce-product-gallery__wrapper img', function (e) {
-        console.log(e)
 
-        $('body').append('<div class="photoSwipe_innerthumbs"></div>');
-
-        var svi_items = [];
-
-        $('.woocommerce-product-gallery__wrapper >div').each(function (i, v) {    // build items array
-            svi_items.push({
-                src: $(v).find('a').attr('href'),
-                w: 1900,
-                h: 1200,
-                msrc: $(v).data('data-thumb-srcset'),
-                title: $(v).find('img').attr('title')
-            });
-        });
-
-        // define options (if needed)
-        var options = {
-            index: 0 // start at first slide
-        };
-        console.log(svi_items)
-        // Initializes and opens PhotoSwipe
-        const gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, svi_items, options);
-
-        gallery.init();
-
-// Gallery starts closing
-        gallery.listen('close', function () {
-            $('.photoSwipe_innerthumbs').remove();
-        });
-
-//Clone and append the thumbnail images
-        $('ol.flex-control-thumbs img').clone().appendTo("div.photoSwipe_innerthumbs");
-
-//Get current active index and add class to thumb just to fade a bit
-        $("div.photoSwipe_innerthumbs img").eq(gallery.getCurrentIndex()).addClass('svifaded');
-
-//Handle the swaping of images
-        $('body').on('click', 'div.photoSwipe_innerthumbs img', function (e) {
-            $('div.photoSwipe_innerthumbs img').removeClass("svifaded");
-            $(this).addClass('svifaded');
-            gallery.goTo($("div.photoSwipe_innerthumbs img").index($(this)));
-        });
-    });
 
     $('.hide-filter').on('click', function (e) {
         e.preventDefault();
@@ -160,14 +170,44 @@ jQuery(document).ready(function ($) {
         }
 
     });
+
+
+    $('#galleryModalToggle').on('shown.bs.modal', function (e) {
+        // jQuery('#galleryModalToggle').modal('show')
+
+        $('.modal-body').scrollspy('refresh');
+        if ($(window.location.hash).length) {
+            // console.log()
+            setTimeout(() => {
+                $('.modal-body').animate({
+                    scrollTop: $(window.location.hash).offset().top - 130
+                }, 200);
+            }, 200)
+
+        }
+
+    });
+
+
+    $('.modal-gallery').on('click', function (e) {
+        e.preventDefault();
+        window.location.hash = $(this).attr('href')
+        $('#galleryModalToggle').modal('show')
+
+
+    });
+
     $(document).on('change', '.variation-radios input', function () {
+
         $('.variation-radios input:checked').each(function (index, element) {
             var $el = $(element);
             var thisName = $el.attr('name');
             var thisVal = $el.attr('value');
             $('select[name="' + thisName + '"]').val(thisVal).trigger('change');
+
         });
     });
+
     $(document).on('woocommerce_update_variation_values', function () {
         $('.variation-radios input').each(function (index, element) {
             var $el = $(element);
@@ -184,11 +224,5 @@ jQuery(document).ready(function ($) {
         });
     });
 
-    var productModal = new understrap.Modal(document.getElementById("productModal"), {});
-
-    $('.single_add_to_cart_button').on('click', function (e) {
-        e.preventDefault()
-        productModal.show()
-    })
 
 });

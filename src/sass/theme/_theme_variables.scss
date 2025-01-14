@@ -16,7 +16,7 @@ $danger: #C8102E;
 $purple: #5533ff; // Thats a sample how you could change a BootStrap variable.
 $primary: $black; // Once we've changed the value, we'll also make it the primary brand color.
 
-
+$bg-nav-bar: rgb(85, 85, 85);
 // NAv
 
 $nav-link-font-weight: 700;
@@ -26,6 +26,8 @@ $navbar-dark-color: $white;
 $navbar-light-hover-color: $danger;
 $navbar-dark-hover-color: $danger;
 $nav-link-hover-color: $danger;
+$nav-link-padding-y:1.4rem;
+
 
 $dropdown-border-radius: 0;
 $dropdown-bg: transparent;
@@ -33,6 +35,7 @@ $dropdown-link-hover-color: $navbar-light-hover-color;
 $dropdown-link-hover-bg: none;
 $dropdown-font-size: 0.8rem;
 $dropdown-padding-y: 0;
+$dropdown-item-padding-y: 5px;
 $dropdown-border-width: 0;
 // Body Background
 $body-bg: $light;
@@ -81,4 +84,12 @@ $accordion-button-active-bg: transparent;
 $accordion-button-padding-x: 0;
 $accordion-body-padding-x: 0;
 $accordion-border-width: 0;
-$accordion-btn-focus-box-shadow:none;
+
+$accordion-button-focus-box-shadow: 0 0 0 0;
+$icon-right-svg: url("data:image/svg+xml,%3Csvg class='icon icon--caret-right' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9.75 17.75'%3E%3Ctitle%3ECaret - Right%3C/title%3E%3Cpath d='m.87,17.75c-.22,0-.45-.08-.62-.26-.34-.34-.34-.9,0-1.24l7.38-7.38L.26,1.49C-.09,1.15-.09.6.26.26.6-.09,1.15-.09,1.49.26l8,8c.34.34.34.9,0,1.24L1.49,17.49c-.17.17-.4.26-.62.26Z'%3E%3C/path%3E%3C/svg%3E");
+$icon-left-svg: url("data:image/svg+xml,%3Csvg class='icon icon--caret-left' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9.75 17.75'%3E%3Ctitle%3ECaret - Left%3C/title%3E%3Cpath d='m8.87,17.75c-.22,0-.45-.08-.62-.26L.26,9.49c-.34-.34-.34-.9,0-1.24L8.26.26c.34-.34.9-.34,1.24,0,.34.34.34.9,0,1.24l-7.38,7.38,7.38,7.38c.34.34.34.9,0,1.24-.17.17-.4.26-.62.26Z'%3E%3C/path%3E%3C/svg%3E");
+$icon-plus-svg: url("data:image/svg+xml,%3Csvg class='icon icon--plus' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctitle%3EPlus%3C/title%3E%3Cpath d='m7.12,15.12c0,.48.39.88.88.88s.88-.39.88-.88v-6.25h6.25c.48,0,.88-.39.88-.88s-.39-.88-.88-.88h-6.25V.88c0-.48-.39-.88-.88-.88s-.88.39-.88.88v6.25H.88c-.48,0-.88.39-.88.88s.39.88.88.88h6.25v6.25Z'%3E%3C/path%3E%3C/svg%3E");
+$icon-minus-svg: url("data:image/svg+xml,%3Csvg class='icon icon--minus' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 1.75'%3E%3Ctitle%3EMinus%3C/title%3E%3Cpath d='m16,.88c0,.48-.39.88-.88.88H.88c-.48,0-.88-.39-.88-.88s.39-.88.88-.88h14.25c.48,0,.88.39.88.88Z'%3E%3C/path%3E%3C/svg%3E");
+
+$accordion-button-icon:$icon-plus-svg;
+$accordion-button-active-icon:$icon-minus-svg;

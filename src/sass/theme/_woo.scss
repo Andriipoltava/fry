@@ -154,12 +154,26 @@ table.variations {
 
 .woocommerce div.product div.images.woocommerce-product-gallery {
   width: 100%;
+  @include media-breakpoint-up(lg) {
   max-width: 52%;
+  }
 }
 
-.woocommerce #content div.product div.summary, .woocommerce div.product div.summary, .woocommerce-page #content div.product div.summary, .woocommerce-page div.product div.summary {
+.modal-gallery {
+  cursor: zoom-in;
+}
+
+.woocommerce #content div.product div.summary, .woocommerce div.product div.summary,
+.woocommerce-page #content div.product div.summary, .woocommerce-page div.product div.summary {
   width: 100%;
-  max-width: 44.9%;
+  padding: 30px;
+  @include media-breakpoint-up(lg) {
+    max-width: 47.9%;
+    padding-bottom: 3.5rem;
+    padding-top: 3.5rem;
+    padding-left: 4.6875rem;
+    padding-right: 4.6875rem;
+  }
 }
 
 //.woocommerce-breadcrumb{
@@ -171,7 +185,10 @@ table.variations {
 
 .shop-page {
   .woocommerce-breadcrumb {
-    font-size: 1.12em;
+    @include media-breakpoint-up(md) {
+      font-size: 1.12em;
+    }
+
     color: #000000;
   }
 }
@@ -281,6 +298,7 @@ div.photoSwipe_innerthumbs img {
 .summary.entry-summary {
   position: sticky;
   top: 160px;
+
 }
 
 .woocommerce-ordering {
@@ -385,9 +403,9 @@ div.photoSwipe_innerthumbs img {
   }
 
   .yith-wcan-filter.checkbox-design {
-    padding-bottom: 10px;
-    border-bottom: 1px solid $secondary;
-    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgb(221 221 221);
+    margin-bottom: 20px;
   }
 
   .filter-title {
@@ -454,4 +472,39 @@ div.photoSwipe_innerthumbs img {
   .yith-wcan-active-filters {
     display: none !important;
   }
+}
+.woocommerce div.product{
+  @include media-breakpoint-down(md) {
+    overflow: hidden;
+  }
+}
+
+.swiper-mobile-product {
+  margin-left: -16px !important;
+  margin-right: -16px !important;
+
+  .swiper-pagination, .banner_slider-slider-pagination {
+    position: sticky;
+  }
+
+  .swiper-pagination-bullet {
+    width: 24px;
+    background: #c2c2c2;
+    border-radius: 10px;
+    border: none;
+    height: 2px;
+  }
+
+  .swiper-pagination-bullet-active {
+    background: #000;
+  }
+
+}
+.reset_variations{
+  display: none!important;
+}
+
+.woocommerce div.product div.images .woocommerce-product-gallery__wrapper {
+  margin-right: calc(-0.5 * var(--bs-gutter-x));
+  margin-left: calc(-0.5 * var(--bs-gutter-x));
 }

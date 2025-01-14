@@ -63,9 +63,9 @@
 
 .uppercase-subtitles {
   letter-spacing: 0;
-  text-transform: uppercase;
+  //text-transform: uppercase;
   line-height: 100%;
-  font-size: 1rem;
+  font-size: .75rem;
   font-weight: 600;
   @include media-breakpoint-between(sm,xxl){
     font-size: max(0.7175rem, 14px);
@@ -81,3 +81,16 @@
   font-weight: 600;
 }
 
+.wp-block {
+  h1, .h1 {
+    font-size: 3.5rem;
+  }
+
+  h2, .h2 {
+    font-size: 2rem;
+  }
+
+  h3, .h3 {
+    font-size: 1.5rem;
+  }
+}

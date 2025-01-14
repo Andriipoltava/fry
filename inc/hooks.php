@@ -58,23 +58,23 @@ if (!function_exists('fry_theme_add_site_info')) {
     }
 }
 
-function tax_and_offset_homepage($query)
-{
-
-    if (is_search()  && $query->is_main_query()) {
-        $query->set('post_type', 'product');
-
-    }
-    if (!is_admin() && $query->is_home() && $query->is_main_query()) {
-        $latest_post = get_posts('post_type=post&numberposts=1');
-        $last_ID = $latest_post[0]->ID;
-//        $query->set('offset', 1);
-        $query->set('post__not_in', [$last_ID]);
-
-    }
-}
-
-add_action('pre_get_posts', 'tax_and_offset_homepage');
+//function tax_and_offset_homepage($query)
+//{
+//
+//    if (is_search()  && $query->is_main_query()) {
+//        $query->set('post_type', 'product');
+//
+//    }
+//    if (!is_admin() && $query->is_home() && $query->is_main_query()) {
+//        $latest_post = get_posts('post_type=post&numberposts=1');
+//        $last_ID = $latest_post[0]->ID;
+////        $query->set('offset', 1);
+//        $query->set('post__not_in', [$last_ID]);
+//
+//    }
+//}
+//
+//add_action('pre_get_posts', 'tax_and_offset_homepage');
 
 function homepage_offset_pagination($found_posts, $query)
 {
@@ -123,9 +123,7 @@ add_filter( 'posts_search', 'search_by_sku', 999, 2 );
  */
 add_filter('body_class', function (array $classes) {
     /** Add WC classes if on a custom template or when viewing search results */
-    if (is_page_template('directory-name/page-something.php') || is_search()) {
-        $classes[] = 'woocommerce woocommerce-page';
-    }
+    $classes[] = 'woocommerce woocommerce-page';
 
     return array_filter($classes);
 });

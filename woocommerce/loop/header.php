@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 <header class="woocommerce-products-header">
-    <div class="container-fluid mb-4">
+    <div class="container-fluid my-4">
 	<?php
 	/**
 	 * Hook: woocommerce_show_page_title.
@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	 */
 	if ( apply_filters( 'woocommerce_show_page_title', true ) ) :
 		?>
-		<h1 class="woocommerce-products-header__title page-title mb-0"><?php woocommerce_page_title(); ?></h1>
+		<h1 class="woocommerce-products-header__title page-title mb-0 h2"><?php woocommerce_page_title(); ?></h1>
 	<?php endif; ?>
 
 	<?php

@@ -48,6 +48,9 @@ if (!function_exists('fry_theme_woocommerce_support')) {
 remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
 remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10);
 
+
+remove_action('woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30);
+
 // Then hook in your own functions to display the wrappers your theme requires.
 add_action('woocommerce_before_single_product_summary', 'fry_theme_woocommerce_wrapper_start', 10);
 add_action('woocommerce_after_single_product_summary', 'fry_theme_woocommerce_wrapper_end', 10);
@@ -65,7 +68,7 @@ if (!function_exists('fry_theme_woocommerce_wrapper_start')) {
     function fry_theme_woocommerce_wrapper_start()
     {
         $container = 'container-fluid px-0';
-        echo '<div class="container-fluid pt-lg-4" id="woocommerce-wrapper">';
+        echo '<div class="container-fluid pt-lg-4 px-0" id="woocommerce-wrapper">';
         echo '<div class="row justify-content-md-between" >';
 
 
@@ -561,4 +564,46 @@ add_filter('yith_wcan_filter_get_formatted_terms_for_product_cat', function ($re
 add_filter('woocommerce_sale_flash', function ($html) {
 
     return '<span class="onsale">Sale!</span>';
+});
+add_filter('yith_wcan_filter_get_formatted_terms_for_pa_weight', 'sort_by_int_filter', 10, 2);
+add_filter('yith_wcan_filter_get_formatted_terms_for_pa_packaging', 'sort_by_int_filter', 10, 2);
+function sort_by_int_filter($result, $ob)
+{
+
+
+    $arrayNew = [];
+    foreach ($result as $term_id => $value) {
+        $term_name = get_term($term_id)->name;
+        $float = str_replace(',', '.', $term_name);
+        $float = preg_replace('/[^0-9\.]/', "", $float); // only show the numbers and dots
+        $arrayNew[$term_id] = $float;
+    }
+    asort($arrayNew);
+
+
+    foreach ($arrayNew as $key => $value) {
+        $arrayNew[$key] = $result[$key] ?: null;
+
+    }
+    return $arrayNew;
+}
+
+add_filter('yith_wcan_remove_current_term_from_active_filters', function ($show) {
+    if (is_search()) {
+        return false;
+    }
+    return $show;
+});
+add_filter('yith_wcan_active_filters_title', function ($show) {
+    return '';
+});
+add_filter('yith_wcan_active_labels_with_titles', function ($show) {
+    return false;
+});
+add_filter('yith_wcan_filter_title_classes', function ($array) {
+    if (!is_search()){
+        $array[2] = 'closed';
+    }
+
+    return $array;
 });

@@ -33,7 +33,7 @@ if (!empty($block['align'])) {
 <div <?php echo esc_attr($anchor); ?>class="<?php echo esc_attr($class_name); ?> bg-dark ">
     <div class="container-fluid  py-5 text-white"    style="background-image: url(<?php echo $image ? wp_get_attachment_image_url($image['ID'], 'full') : '' ?>);background-size: cover;background-repeat: no-repeat;background-position: center;background-color:#252525 ">
         <div class="row   d-flex align-items-lg-end  justify-content-center text-center">
-            <div class="col-lg-8 col-xl-6 col-xxl-4  py-5 my-lg-5 mb-5">
+            <div class="col-lg-10 col-xxl-6   py-5 my-lg-5 mb-5">
                 <?php if ($subtitle) echo "<span class='uppercase-subtitles'> $subtitle</span>"; ?>
                 <?php if ($title) echo "<h1 class='h2 lh-1' > $title</h1>"; ?>
 

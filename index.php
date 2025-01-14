@@ -21,7 +21,18 @@ $container = get_theme_mod('fry_theme_container_type');
 
 <?php if (is_home()) : ?>
 
-    <?php get_template_part('global-templates/hero'); ?>
+        <div class="container-fluid">
+            <div class="row shop-page">
+                <div class="col-lg-12 pt-4 pb-5">
+
+                    <?php echo "<h1 class='h2 pt-3 pb-3  lh-1' > ".get_queried_object()->post_title."</h1>"; ?>
+                    <?php woocommerce_breadcrumb(); ?>
+
+                </div>
+            </div>
+
+        </div>
+
 
 <?php endif; ?>
 

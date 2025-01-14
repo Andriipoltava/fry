@@ -20,7 +20,7 @@ if (!empty($block['anchor'])) {
 }
 
 // Create class attribute allowing for custom "className" and "align" values.
-$class_name = 'hero';
+$class_name = 'news-banner';
 if (!empty($block['className'])) {
     $class_name .= ' ' . $block['className'];
 }
@@ -31,11 +31,11 @@ if (!empty($block['align'])) {
 
 ?>
 
-<div <?php echo esc_attr($anchor); ?>class="<?php echo esc_attr($class_name); ?>"
+<div <?php echo esc_attr($anchor); ?>class="<?php echo esc_attr($class_name); ?> arh-6-lg arv-sm-14 arv-16 "
      style="background-image: url(<?php echo $image ? wp_get_attachment_image_url($image['ID'], 'full') : '' ?>);background-size: cover;background-position: center">
-    <div class="container-fluid  py-5 text-white">
-        <div class="row   d-flex align-items-lg-end pt-5 mt-lg-5 justify-content-between">
-            <div class="col-lg-6 col-xl-4  pt-5 mt-lg-5">
+    <div class="container-fluid   text-white h-100">
+        <div class="row  d-flex align-items-end  py-lg-5 justify-content-between h-100" >
+            <div class="col-lg-6 col-xl-4  py-5 ">
                 <?php if ($subtitle) echo "<span class='uppercase-subtitles'> $subtitle</span>"; ?>
                 <?php if ($title) echo "<h2 class='h3 pt-3' > $title</h2>"; ?>
                 <?php if ($description) echo "<div> $description</div>"; ?>
@@ -51,7 +51,6 @@ if (!empty($block['align'])) {
 
                 <?php endif; ?>
             </div>
-
 
         </div>
     </div>

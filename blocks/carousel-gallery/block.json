@@ -1,0 +1,15 @@
+{
+  "name": "acf/carousel-gallery",
+  "title": "Carousel gallery",
+  "description": "A custom carousel-gallery block that uses ACF fields.",
+  "category": "formatting",
+  "icon": "admin-comments",
+  "keywords": ["carousel-gallery", "top"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "carousel-gallery.php"
+  },
+  "supports": {
+    "anchor": true
+  }
+}

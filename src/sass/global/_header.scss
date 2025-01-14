@@ -3,6 +3,10 @@
 
   .custom-logo-link {
     max-width: 163px;
+    img{
+      //position: relative;
+      //z-index: 1111;
+    }
   }
 
   #main-menu {
@@ -24,15 +28,15 @@
 
   #main-nav {
     &:hover {
-      @extend .bg-light;
-      --bs-nav-link-color: #000000;
+      //@extend .bg-light;
+      //--bs-nav-link-color: #000000;
     }
 
 
     &.navbar-dark {
       .custom-logo-link {
         img {
-          filter: brightness(7.5);
+          //filter: brightness(7.5);
         }
       }
     }
@@ -42,9 +46,16 @@
 
 #new-header {
 
+  font-family: neue-haas-grotesk-display, sans-serif;
   .menu-item {
+    &:hover{
+      >a{
+        color: var(--#{$prefix}nav-link-hover-color);
+      }
+    }
     & > .nav-link {
       text-transform: uppercase;
+
     }
   }
 
@@ -64,7 +75,20 @@
 
     a[href='#'] {
       pointer-events: none;
+      color: var(--#{$prefix}navbar-color)!important;
 
+    }
+
+    .dropdown-item {
+      font-family: neue-haas-grotesk-display, sans-serif;
+      font-size: 1rem;
+      line-height: 1.25em;
+      background: transparent !important;
+      color: var(--#{$prefix}dropdown-link-color);
+
+      &:hover {
+        color: var(--#{$prefix}dropdown-link-hover-color);
+      }
     }
   }
 
@@ -75,6 +99,10 @@
 
   .menu-item-has-children > a {
     font-weight: 700;
+    &:hover{
+
+
+    }
   }
 
   .dropdown {
@@ -158,11 +186,139 @@
 }
 
 #navbarNavOffcanvas {
-  .navbar-nav {
+  a.js-wpml-ls-item-toggle.wpml-ls-item-toggle {
 
-    --bs-nav-link-font-size: 1.25rem;
+    border: 1px solid $black;
+    color: $black !important;
+
+  }
+  .offcanvas-titles {
+    min-height: 30px;
+  }
+
+  .collapse,
+  .collapsing {
+
+    transition: left .5s;
+
+  }
+  .navbar-nav {
+    --#{$prefix}nav-link-padding-y: 0.5rem;
+    --#{$prefix}nav-link-font-size: 1.25rem;
+    --#{$prefix}nav-link-color: var(--#{$prefix}black);
   }
   .dropdown-menu{
-    --bs-dropdown-font-size: 1rem;
+    --#{$prefix}dropdown-font-size: 1rem;
+  }
+
+  .mobile-nav__menu-trigger {
+    &:after {
+      content: '';
+      background-image: $icon-right-svg;
+      width: 10px;
+      height: 18px;
+      background-repeat: no-repeat;
+      position: relative;
+      display: inline-block;
+    }
+  }
+
+  .offcanvas-back {
+
+    &:not(.show) {
+      display: none;
+    }
+
+    &:before {
+      content: '';
+      margin-right: 10px;
+      background-image: $icon-left-svg;
+      width: 10px;
+      height: 18px;
+      background-repeat: no-repeat;
+      position: relative;
+      display: inline-block;
+    }
+  }
+
+  .collapse-menu {
+    display: block !important;
+
+    &.collapse:not(.show) {
+      left: +200% !important;
+    }
+
+    padding: 0;
+
+    z-index: 111;
+
+    & > ul {
+      list-style: none;
+      padding: var(--#{$prefix}offcanvas-padding-y) var(--#{$prefix}offcanvas-padding-x);
+
+
+      & > .menu-item {
+        display: block;
+      }
+    }
+
+    .accordion-button,
+    .dropdown-item {
+      padding: var(--#{$prefix}nav-link-padding-y) var(--#{$prefix}nav-link-padding-x);
+      font-size: var(--#{$prefix}nav-link-font-size);
+      font-weight: var(--#{$prefix}nav-link-font-weight);
+      color: var(--#{$prefix}nav-link-color);
+      text-wrap-mode: wrap;
+      text-decoration: none;
+    }
+
+    .dropdown-item {
+      &[href="#"] {
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: .03em;
+        line-height: 1em;
+        padding-bottom: 1rem;
+      }
+    }
+
+
+  }
+
+  .accordion-collapse {
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 10px 0;
+    }
+
+    a {
+      font-family: neue-haas-grotesk-display, sans-serif;
+      font-size: 1rem;
+      line-height: 1.25em;
+      text-decoration: none;
+    }
+  }
+
+
+}
+
+
+
+.wpml-ls-legacy-dropdown {
+  width: 4.5em;
+  @include media-breakpoint-down(sm) {
+    //width: 2.5em;
+    //.wpml-ls-native {
+    //  display: none;
+    //}
+  }
+
+}
+
+a.js-wpml-ls-item-toggle.wpml-ls-item-toggle {
+  @include media-breakpoint-down(sm) {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
   }
 }

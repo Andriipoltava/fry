@@ -18,8 +18,10 @@ figure.wp-block-image, // Image captions
 {
 	@extend .figure;
 	display: block;
+	margin-bottom: 0;
 	img {
 		@extend .figure-img;
+		margin-bottom: 0;
 	}
 	figcaption {
 		@extend .figure-caption;

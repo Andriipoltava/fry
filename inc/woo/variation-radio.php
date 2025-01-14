@@ -37,16 +37,18 @@ function variation_radio_buttons($html, $args) {
             $terms = wc_get_product_terms($product->get_id(), $attribute, array(
                 'fields' => 'all',
             ));
+            if (!$args['selected'] && isset($terms[0])) {
+                $args['selected'] = $terms[0]->slug;
+            }
 
-            foreach($terms as $term) {
+            foreach ($terms as $key => $term) {
                 if(in_array($term->slug, $options, true)) {
                     $id = $name.'-'.$term->slug;
-
                     $radios .= '<div class="variation-radio"> <input type="radio" id="'.esc_attr($id).'" name="'.esc_attr($name).'" value="'.esc_attr($term->slug).'" '.checked(sanitize_title($args['selected']), $term->slug, false).'><label class="btn btn-outline-primary rounded" for="'.esc_attr($id).'">'.esc_html(apply_filters('woocommerce_variation_option_name', $term->name)).'</label></div>';
                 }
             }
         } else {
-            foreach($options as $option) {
+            foreach ($options as $key => $option) {
                 $id = $name.'-'.$option;
 
                 $checked    = sanitize_title($args['selected']) === $args['selected'] ? checked($args['selected'], sanitize_title($option), false) : checked($args['selected'], $option, false);

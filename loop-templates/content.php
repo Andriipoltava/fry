@@ -12,7 +12,9 @@ defined('ABSPATH') || exit;
 <article <?php post_class('col-lg-4'); ?> id="post-<?php the_ID(); ?>">
 
     <header class="entry-header">
+        <a href="<?php echo get_the_permalink(); ?>">
         <?php echo get_the_post_thumbnail($post->ID, 'square-500'); ?>
+        </a>
     </header><!-- .entry-header -->
 
 

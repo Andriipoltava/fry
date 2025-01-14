@@ -32,9 +32,9 @@ if (!empty($block['align'])) {
 ?>
 
 <div <?php echo esc_attr($anchor); ?>class="<?php echo esc_attr($class_name); ?> bg-dark p-md-5 p-4">
-    <div class="container-fluid py-5 text-white"    style="background-image: url(<?php echo $image ? wp_get_attachment_image_url($image['ID'], 'full') : '' ?>);background-size: contain;background-repeat: no-repeat;background-position: center;background-color:#252525 ">
-        <div class="row   d-flex align-items-lg-end  justify-content-between">
-            <div class="col-lg-10 offset-xxl-1 col-xl-9  py-5 my-lg-5 mb-5">
+    <div class="container-fluid py-5 text-white"    >
+        <div class="row   d-flex align-items-lg-end  justify-content-between" style="background-image: url(<?php echo $image ? wp_get_attachment_image_url($image['ID'], 'full') : '' ?>);background-size: contain;background-repeat: no-repeat;background-position: center;background-color:#252525 ">
+            <div class="col-11 offset-xxl-1 col-xl-11  py-5 my-lg-5 mb-5">
                 <?php if ($subtitle) echo "<span class='uppercase-subtitles'> $subtitle</span>"; ?>
                 <?php if ($title) echo "<h2 style='    word-break: break-all;' > $title</h2>"; ?>
 

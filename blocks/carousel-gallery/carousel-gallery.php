@@ -26,18 +26,16 @@ if (!empty($block['align'])) {
 $title = get_field('title');
 $subtitle = get_field('subtitle');
 $link = get_field('link');
-$itemType = get_field('select_type');
+
 $button_text = get_field('button_text');
 $style = get_field('style');
-$slider_count = get_field('slider_count') ?: 3;
 $arrayStyle = ['dark' => 'light', 'light' => 'dark']
 ?>
 
 <div id="<?php echo $id ?>"
-     class=" <?php echo $className ?> <?php echo 'bg-' . $style ?> <?php echo 'text-' . $arrayStyle[$style] ?>   overflow-hidden">
+     class=" <?php echo $className ?> <?php echo 'bg-' . $style ?> <?php echo 'text-' . $arrayStyle[$style] ?>  overflow-hidden">
     <div class="py-md-5 py-5 container-fluid pe-0">
-        <?php if ($title || $link) { ?>
-            <div class="row mb-4 pe-xl-5 pe-3 align-items-md-end">
+        <div class="row mb-4 pe-xl-5 pe-3 align-items-md-end">
             <div class="col-md-8">
                 <?php if ($subtitle) echo "<span class='uppercase-subtitles'> $subtitle</span>"; ?>
                 <?php if ($title) echo "<h3 class='pt-3' > $title</h3>"; ?>
@@ -50,59 +48,33 @@ $arrayStyle = ['dark' => 'light', 'light' => 'dark']
                 ?>
                 <div class="col-md-4 d-flex justify-content-md-end pt-md-0 pt-4">
                     <div>
-                        <a class="<?php echo $itemType !== 'category' ? ('btn btn-'. $arrayStyle[$style]) : ('link' .' link-' . $arrayStyle[$style]) ?>  mt-3"
+                        <a class="btn btn-outline-<?php echo $arrayStyle[$style] ?>  mt-3"
                            href="<?php echo esc_url($link_url); ?>"
                            target="<?php echo esc_attr($link_target); ?>"><?php echo esc_html($link_title); ?></a>
                     </div>
                 </div>
             <?php endif; ?>
         </div>
-        <?php }; ?>
-        <?php $featured_posts = get_field($itemType);
+        <?php $featured_posts = get_field('gallery');
         if ($featured_posts): ?>
             <div class=" position-relative slider ">
-                <div class="swiper-container swiper products-slider <?php echo $itemType ?: '' ?>"
-                     data-columns="<?php echo $slider_count; ?>">
+                <div class="swiper-container swiper products-slider " data-columns="3">
                     <div class="swiper-wrapper ">
-                        <?php foreach ($featured_posts as $post):
+                        <?php foreach ($featured_posts as $image):
                             // Setup this post for WP functions (variable must be named $post).
-                            if ($itemType == 'category') {
-                                $product_cat = get_term($post, 'product_cat');
-                                $main_image = get_field('main_image', $product_cat);
-                                $thumbnail_id = get_term_meta($product_cat->term_id, 'thumbnail_id', true);
-                                $main_image = !$main_image ? $thumbnail_id : $main_image['id'];
-                                $title = $product_cat->name;
-                                $link = get_term_link($product_cat);
-                            }
-                            if ($itemType == 'product') {
-                                $product_cat = get_term($post, 'product_cat');
-                                $main_image = get_post_thumbnail_id($post->ID);
-                                $title = $post->post_title;
-                                $link = get_the_permalink($post);
-                            }
-                            if ($itemType == 'custom') {
 
-                                $main_image = $post['image']['id'];
-
-                                $link = $post['link']['url'];
-                                $title = $post['link']['title'] ?: $button_text;
-                            }
 
                             ?>
+                            <?php if ($image) { ?>
+
                             <div class="loop-product-column">
-                                <?php if ($main_image) { ?>
-                                    <a href="<?php echo($link); ?>">
-                                    <?php echo wp_get_attachment_image($main_image, 'square-500',null,['class'=>'w-100']); ?>
-                                    </a>
-                                <?php }; ?>
-                                <?php if ($link) { ?>
-                                <a class='text-decoration-none link  <?php echo 'link-' . $arrayStyle[$style] ?>'
-                                   href="<?php echo($link); ?>"><h6 class="pt-3"><?php echo $title; ?></h6></a>
 
-                                <?php }; ?>
+                                    <?php echo wp_get_attachment_image($image['id'], 'full', null, ['class' => 'w-100 arv-14-sm ar-1 ofc']); ?>
+
+
                             </div>
+                        <?php }; ?>
 
-                            <?php ?>
                         <?php endforeach; ?>
                     </div>
                     <div class="row align-items-center mt-5">

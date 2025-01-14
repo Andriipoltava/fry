@@ -56,6 +56,19 @@
       }
     }
   }
+  .wpcf7-list-item{
+    margin-left: 0;
+  }
+  .selected-flag{
+    border-radius: 40px;
+  }
+ .separate-dial-code.allow-dropdown.iti-sdc-4 .selected-flag {
+    width: 96px;
+  }
+  .intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-4 input, .intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-4 input[type=tel], .intl-tel-input.separate-dial-code.allow-dropdown.iti-sdc-4 input[type=text]{
+    padding-left: 108px;
+
+  }
 
   .wpcf7-form {
 

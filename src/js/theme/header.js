@@ -83,7 +83,7 @@ class SiteHeader {
             setTimeout(function () {
                 _self.header.classList.add("bg-light"),
                     _self.container.classList.remove("navbar-dark")
-            }, 300)
+            }, 100)
         }
         if (event.type == 'mouseleave') {
             setTimeout(function () {
@@ -92,18 +92,18 @@ class SiteHeader {
                 if (1 > window.scrollY) {
                     _self.container.classList.add("navbar-dark")
                 }
-            }, 300)
+            }, 100)
 
         }
         _self.pause = false
         setTimeout(function () {
             _self.pause = true
-        }, 500)
+        }, 200)
     }
     _headerOnScorll = () => {
-        if (window.innerWidth < 766) {
-            return;
-        }
+        // if (window.innerWidth < 766) {
+        //     return;
+        // }
         1 < window.scrollY ? (this.header.classList.add("bg-light"),
             this.header.classList.add("text-black"),
             this.header.classList.remove("text-white"),
@@ -117,12 +117,13 @@ class SiteHeader {
         this.container.classList.contains("mega-menu__hover-trigger") && this.container.classList.add("desktop:delay-700"))
     }
     _headerOnScorllProduct = () => {
-        if (window.innerWidth < 766) {
+        let el = document.querySelector('.top-woo-navbar');
+        if (window.innerWidth < 766 || document.querySelectorAll('.top-woo-navbar').length===0) {
             return;
         }
 
         let offset = document.getElementById('wrapper-navbar').getBoundingClientRect().height;
-        let el = document.querySelector('.top-woo-navbar');
+
 
         if (offset * 2 < window.scrollY) {
 

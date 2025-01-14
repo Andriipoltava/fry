@@ -81,7 +81,7 @@ if ( ! function_exists( 'fry_theme_change_logo_class' ) ) {
 	function fry_theme_change_logo_class( $html ) {
 
 		$html = str_replace( 'class="custom-logo"', 'class="img-fluid"', $html );
-		$html = str_replace( 'class="custom-logo-link"', 'class="navbar-brand custom-logo-link"', $html );
+		$html = str_replace( 'class="custom-logo-link"', 'class="navbar-brand custom-logo-link py-1"', $html );
 		$html = str_replace( 'alt=""', 'title="Home" alt="logo"', $html );
 
 		return $html;

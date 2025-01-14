@@ -25,13 +25,13 @@ $features_content = get_field('features')
     <?php if ($features_content) { ?>
         <div class="accordion-item border-top">
             <h2 class="accordion-header mb-0" id="headingFeatures">
-                <button class="accordion-button text-s-medium text-uppercase fw-bold" type="button" data-bs-toggle="collapse"
+                <button class="accordion-button text-s-medium text-uppercase fw-bold collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseFeatures"
-                        aria-expanded="true" aria-controls="collapseOne">
+                        aria-expanded="false" aria-controls="collapseFeatures">
                     <?php echo $features; ?>
                 </button>
             </h2>
-            <div id="collapseFeatures" class="accordion-collapse collapse hide" aria-labelledby="headingFeatures"
+            <div id="collapseFeatures" class="accordion-collapse collapse" aria-labelledby="headingFeatures"
                  data-bs-parent="#accordionFeatures">
                 <div class="accordion-body pt-0">
                     <?php echo $features_content; ?>
