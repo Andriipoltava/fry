@@ -34,8 +34,8 @@ $arrayStyle = ['dark' => 'light', 'light' => 'dark']
 
 <div id="<?php echo $id ?>"
      class=" <?php echo $className ?> <?php echo 'bg-' . $style ?> <?php echo 'text-' . $arrayStyle[$style] ?>  overflow-hidden">
-    <div class="py-md-5 py-5 container-fluid pe-0">
-        <div class="row mb-4 pe-xl-5 pe-3 align-items-md-end">
+    <div class="pt-md-5 py-5 container-fluid pe-0">
+        <div class="row mb-4 pe-xl-5 pe-3 align-items-md-end pe-4">
             <div class="col-md-8">
                 <?php if ($subtitle) echo "<span class='uppercase-subtitles'> $subtitle</span>"; ?>
                 <?php if ($title) echo "<h3 class='pt-3' > $title</h3>"; ?>
@@ -46,7 +46,7 @@ $arrayStyle = ['dark' => 'light', 'light' => 'dark']
                 $link_title = $link['title'];
                 $link_target = $link['target'] ? $link['target'] : '_self';
                 ?>
-                <div class="col-md-4 d-flex justify-content-md-end pt-md-0 pt-4">
+                <div class="col-md-4  justify-content-md-end pt-md-0 pt-4 d-md-flex d-none" >
                     <div>
                         <a class="btn btn-outline-<?php echo $arrayStyle[$style] ?>  mt-3"
                            href="<?php echo esc_url($link_url); ?>"
@@ -55,10 +55,11 @@ $arrayStyle = ['dark' => 'light', 'light' => 'dark']
                 </div>
             <?php endif; ?>
         </div>
+
         <?php $featured_posts = get_field('gallery');
         if ($featured_posts): ?>
             <div class=" position-relative slider ">
-                <div class="swiper-container swiper products-slider " data-columns="3">
+                <div class="swiper-container swiper products-slider " data-columns="3" data-mobile="1">
                     <div class="swiper-wrapper ">
                         <?php foreach ($featured_posts as $image):
                             // Setup this post for WP functions (variable must be named $post).
@@ -84,7 +85,7 @@ $arrayStyle = ['dark' => 'light', 'light' => 'dark']
 
                             </div>
                         </div>
-                        <div class="d-flex align-item-center col-md-2 justify-content-center col-4">
+                        <div class="d-flex align-item-center col-md-2 justify-content-center col-4 pe-4">
                             <div class="swiper-button-icon swiper-button-prev-icon <?php echo 'bg-' . $arrayStyle[$style] ?> rounded-circle p-2 mx-2 d-flex align-items-center justify-content-center">
                                 <svg fill="white" class="icon icon--arrow-right" xmlns="http://www.w3.org/2000/svg"
                                      width="20" height="20" viewBox="0 0 17.31 18.12">
@@ -112,6 +113,22 @@ $arrayStyle = ['dark' => 'light', 'light' => 'dark']
             <?php
             // Reset the global post object so that the rest of the page works correctly.
             wp_reset_postdata(); ?>
+        <?php endif; ?>
+        <?php
+        if ($link):
+            $link_url = $link['url'];
+            $link_title = $link['title'];
+            $link_target = $link['target'] ? $link['target'] : '_self';
+            ?>
+            <div class="row d-md-none ">
+                <div class="col-12 pe-4">
+
+                        <a class="btn w-100 btn-outline-<?php echo $arrayStyle[$style] ?>  mt-5"
+                           href="<?php echo esc_url($link_url); ?>"
+                           target="<?php echo esc_attr($link_target); ?>"><?php echo esc_html($link_title); ?></a>
+
+                </div>
+            </div>
         <?php endif; ?>
 
     </div>

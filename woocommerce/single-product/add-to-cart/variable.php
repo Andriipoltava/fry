@@ -43,6 +43,7 @@ do_action('woocommerce_before_add_to_cart_form'); ?>
                         </th>
                         <td class="value">
                             <?php
+//                            var_dump($options);
                             wc_dropdown_variation_attribute_options(
                                 array(
                                     'options' => $options,

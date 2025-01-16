@@ -3,6 +3,9 @@
 
   .custom-logo-link {
     max-width: 163px;
+    @include media-breakpoint-down(md) {
+      max-width: 133px;
+    }
     img{
       //position: relative;
       //z-index: 1111;
@@ -220,6 +223,7 @@
       background-repeat: no-repeat;
       position: relative;
       display: inline-block;
+      top: 7px;
     }
   }
 
@@ -238,6 +242,7 @@
       background-repeat: no-repeat;
       position: relative;
       display: inline-block;
+      top: 2px;
     }
   }
 
@@ -264,6 +269,7 @@
 
     .accordion-button,
     .dropdown-item {
+      --#{$prefix}nav-link-padding-y:0.3rem;
       padding: var(--#{$prefix}nav-link-padding-y) var(--#{$prefix}nav-link-padding-x);
       font-size: var(--#{$prefix}nav-link-font-size);
       font-weight: var(--#{$prefix}nav-link-font-weight);

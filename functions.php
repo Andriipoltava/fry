@@ -136,3 +136,33 @@ function woo_the_title($post_title, $post_id)
     return !is_admin() && get_field('custom_title', $post_id) ? get_field('custom_title', $post_id) : $post_title;
 
 }
+
+add_filter('woocommerce_dropdown_variation_attribute_options_args', function ($args) {
+
+    global $product;
+
+    $options = $args['options'];
+    $product = $args['product'];
+    $attribute = $args['attribute'];
+
+    if (empty($options) && !empty($product) && !empty($attribute)) {
+        $attributes = $product->get_variation_attributes();
+        $options = $attributes[$attribute];
+    }
+    if (!empty($options)) {
+        if ($product && taxonomy_exists($attribute)) {
+            $terms = wc_get_product_terms(
+                $product->get_id(),
+                $attribute,
+                array(
+                    'fields' => 'all',
+                )
+            );
+            if (!$args['selected']) {
+
+                $args['selected'] = $terms[0]->slug ?? '';
+            }
+        }
+    }
+    return $args;
+}, 99);

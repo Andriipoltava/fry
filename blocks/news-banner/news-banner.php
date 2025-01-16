@@ -31,11 +31,11 @@ if (!empty($block['align'])) {
 
 ?>
 
-<div <?php echo esc_attr($anchor); ?>class="<?php echo esc_attr($class_name); ?> arh-6-lg arv-sm-14 arv-16 "
+<div <?php echo esc_attr($anchor); ?>class="<?php echo esc_attr($class_name); ?> arh-10-sm  arh-7-md arh-6-lg arh-5-xl   ar-1 "
      style="background-image: url(<?php echo $image ? wp_get_attachment_image_url($image['ID'], 'full') : '' ?>);background-size: cover;background-position: center">
     <div class="container-fluid   text-white h-100">
-        <div class="row  d-flex align-items-end  py-lg-5 justify-content-between h-100" >
-            <div class="col-lg-6 col-xl-4  py-5 ">
+        <div class="row  d-flex align-items-end   py-lg-5   justify-content-between h-100" >
+            <div class="col-xxl-7 col-lg-10 col-xxl-5 ">
                 <?php if ($subtitle) echo "<span class='uppercase-subtitles'> $subtitle</span>"; ?>
                 <?php if ($title) echo "<h2 class='h3 pt-3' > $title</h2>"; ?>
                 <?php if ($description) echo "<div> $description</div>"; ?>

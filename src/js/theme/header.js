@@ -92,7 +92,7 @@ class SiteHeader {
                 if (1 > window.scrollY) {
                     _self.container.classList.add("navbar-dark")
                 }
-            }, 100)
+            }, 500)
 
         }
         _self.pause = false

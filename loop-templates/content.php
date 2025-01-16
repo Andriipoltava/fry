@@ -30,7 +30,7 @@ defined('ABSPATH') || exit;
         the_excerpt();
         ?>
         <a class="link link-dark mt-3"
-           href="<?php echo get_the_permalink(); ?>"><?php echo esc_html('Read More'); ?></a>
+           href="<?php echo get_the_permalink(); ?>"><?php _e('Read More','fry_theme');; ?></a>
     </div><!-- .entry-content -->
 
 

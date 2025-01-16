@@ -14,14 +14,16 @@ document.querySelectorAll('.products-slider').forEach(function (item) {
 
     item.querySelectorAll('.loop-product-column').forEach(e => e.classList.add('swiper-slide'))
     let mobileCount = item.classList.contains('product')
+    let countDesctopMobile = item.dataset.mobile;
     let countDesctop = item.dataset.columns;
+    countDesctopMobile = countDesctopMobile + '.2';
     countDesctop = countDesctop + '.2';
     // console.log(countDesctop)
 
     const swiper = new Swiper(item, {
 
         spaceBetween: 12,
-        slidesPerView: mobileCount ? 2.2 : 1.2,
+        slidesPerView:countDesctopMobile,
         cssMode: true,
         loop: false,
         scrollbar: {
@@ -196,6 +198,7 @@ jQuery(document).ready(function ($) {
 
 
     });
+
 
     $(document).on('change', '.variation-radios input', function () {
 

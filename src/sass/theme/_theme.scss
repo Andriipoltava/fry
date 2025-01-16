@@ -213,6 +213,18 @@ body {
     }
   }
 }
+.about-banner{
+  .bg{
+    background-image: var(--img-bg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #252525;
+    @include media-breakpoint-down(md){
+      background-image: var(--img-bg-mobile);
+    }
+  }
+}
 
 .accordion-button::after {
   background-position: center;
@@ -229,9 +241,10 @@ html{
 .ar-1 {
   aspect-ratio: 1;
 }
-@for $i from 1 through 16 {
+@for $i from 16 through 1 {
 
   @each $breakpoint, $container-max-width in $container-max-widths {
+
     @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
       .arv-#{$i}-#{$breakpoint} {
         aspect-ratio: $i / 16;
@@ -242,17 +255,19 @@ html{
   .arv-#{$i} {
     aspect-ratio: $i / 16;
   }
+
 }
 
-@for $i from 1 through 16 {
+@for $i from 16 through 1 {
 
   @each $breakpoint, $container-max-width in $container-max-widths {
     @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+      .arh-#{$i}-5-#{$breakpoint} {
+        aspect-ratio: 16 / $i/2;
+
+      }
       .arh-#{$i}-#{$breakpoint} {
         aspect-ratio: 16 / $i;
-
-      }  .arh-#{$i}-5-#{$breakpoint} {
-        aspect-ratio: 16 / $i/2;
 
       }
     }

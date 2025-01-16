@@ -24,7 +24,7 @@ $link = get_the_permalink($last_ID);
                     <?php if ($title) echo "<h2 class='' > $title</h2>"; ?>
                     <?php if ($description) echo "<div> $description</div>"; ?>
                     <a class="btn btn-dark mt-3"
-                       href="<?php echo esc_url($link); ?>"><?php echo esc_html('Read More'); ?></a>
+                       href="<?php echo esc_url($link); ?>"><?php  _e('Read More','fry_theme'); ?></a>
                 </div>
 
 

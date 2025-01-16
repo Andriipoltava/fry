@@ -57,6 +57,15 @@ add_action('woocommerce_after_single_product_summary', 'fry_theme_woocommerce_wr
 
 
 remove_action('woocommerce_before_main_content', 'woocommerce_breadcrumb', 20);
+
+add_action('woocommerce_single_product_summary', function (){
+    ?><div class="position-sticky" style="top:233px "><?php
+}, 1);
+
+add_action('woocommerce_single_product_summary', function (){
+    ?></div><?php
+}, 411);
+
 add_action('woocommerce_single_product_summary', 'woocommerce_breadcrumb', 4);
 
 add_action('woocommerce_archive_description', 'woocommerce_breadcrumb', 25);

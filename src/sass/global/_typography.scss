@@ -71,6 +71,28 @@
     font-size: max(0.7175rem, 14px);
   }
 }
+.text-subh1 {
+  font-size: 1rem;
+  letter-spacing: .03em
+}
+
+.text-subh2 {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+  line-height: 1em
+}
+
+.text-p1,.text-subh2 {
+  font-family: neue-haas-grotesk-display,sans-serif
+}
+
+.text-p1 {
+  font-size: 1.375rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-transform: none
+}
 
 
 .fw-medium {

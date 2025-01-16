@@ -257,6 +257,12 @@ if (!class_exists('Mobile_WP_Bootstrap_Navwalker')) {
                 }
             }
 
+            $in_submenu_title = get_field('in_submenu_title', $item);
+
+            if ($in_submenu_title){
+                $atts['class'] = 'mobile-nav__menu-title text-subh2 py-3 d-block text-decoration-none';
+            }
+
             $atts['aria-current'] = $item->current ? 'page' : '';
 
             // update atts of this item based on any custom linkmod classes.

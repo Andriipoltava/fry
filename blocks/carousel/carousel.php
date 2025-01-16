@@ -30,6 +30,7 @@ $itemType = get_field('select_type');
 $button_text = get_field('button_text');
 $style = get_field('style');
 $slider_count = get_field('slider_count') ?: 3;
+$slider_count_mobile = get_field('slider_count_mobile') ?: 1;
 $arrayStyle = ['dark' => 'light', 'light' => 'dark']
 ?>
 
@@ -59,10 +60,14 @@ $arrayStyle = ['dark' => 'light', 'light' => 'dark']
         </div>
         <?php }; ?>
         <?php $featured_posts = get_field($itemType);
-        if ($featured_posts): ?>
+        if ($featured_posts):
+        if ($itemType == 'category') {
+            $featured_posts = array_reverse($featured_posts);
+        }
+            ?>
             <div class=" position-relative slider ">
                 <div class="swiper-container swiper products-slider <?php echo $itemType ?: '' ?>"
-                     data-columns="<?php echo $slider_count; ?>">
+                     data-columns="<?php echo $slider_count; ?>"  data-mobile="<?php echo $slider_count_mobile; ?>">
                     <div class="swiper-wrapper ">
                         <?php foreach ($featured_posts as $post):
                             // Setup this post for WP functions (variable must be named $post).
