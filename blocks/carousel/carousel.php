@@ -31,7 +31,8 @@ $button_text = get_field('button_text');
 $style = get_field('style');
 $slider_count = get_field('slider_count') ?: 3;
 $slider_count_mobile = get_field('slider_count_mobile') ?: 1;
-$arrayStyle = ['dark' => 'light', 'light' => 'dark']
+$arrayStyle = ['dark' => 'light', 'light' => 'dark'];
+$image_id = get_option('woocommerce_placeholder_image');
 ?>
 
 <div id="<?php echo $id ?>"
@@ -61,9 +62,7 @@ $arrayStyle = ['dark' => 'light', 'light' => 'dark']
         <?php }; ?>
         <?php $featured_posts = get_field($itemType);
         if ($featured_posts):
-        if ($itemType == 'category') {
-            $featured_posts = array_reverse($featured_posts);
-        }
+
             ?>
             <div class=" position-relative slider ">
                 <div class="swiper-container swiper products-slider <?php echo $itemType ?: '' ?>"
@@ -92,6 +91,10 @@ $arrayStyle = ['dark' => 'light', 'light' => 'dark']
                                 $link = $post['link']['url'];
                                 $title = $post['link']['title'] ?: $button_text;
                             }
+                            if (empty($main_image)) {
+                                $main_image = $image_id?:12;
+                            }
+
 
                             ?>
                             <div class="loop-product-column">

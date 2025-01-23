@@ -40,6 +40,19 @@ if (!function_exists('fry_theme_scripts')) {
         if (is_singular() && comments_open() && get_option('thread_comments')) {
             wp_enqueue_script('comment-reply');
         }
+        global $wp_query;
+
+        wp_localize_script(
+            'fry_theme-scripts',
+            'fry_theme_loadmore_params',
+            array(
+                'ajaxurl' => admin_url( 'admin-ajax.php' ),
+                'posts' => json_encode( $wp_query->query_vars ),
+                'current_page' => get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
+                'max_page' => $wp_query->max_num_pages,
+                'curren_total' => count($wp_query->posts),
+            )
+        );
     }
 } // End of if function_exists( 'fry_theme_scripts' ).
 

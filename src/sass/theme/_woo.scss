@@ -203,6 +203,9 @@ table.variations {
   gap: 10px;
 
   .variation-radio {
+    label{
+      text-transform: none;
+    }
     input {
       height: 0;
       opacity: 0;

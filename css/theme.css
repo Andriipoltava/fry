@@ -15094,6 +15094,16 @@ body {
   display: none;
 }
 
+.yith-wcan-filters .filter-item.checkbox > label {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.yith-wcan-filters .yith-wcan-filter .filter-items .filter-item.disabled {
+  display: none !important;
+}
+
 .yith-wcan-filter[data-taxonomy=product_cat] li.filter-item.checkbox.level-0:has(.level-1) {
   display: block;
 }
@@ -15106,7 +15116,7 @@ body {
 }
 
 @media (min-width: 768px) {
-  .yith-wcan-filters .filter-items {
+  .yith-wcan-filters .filter-items.level-0 {
     max-height: 269px;
     overflow-y: auto;
   }
@@ -16534,6 +16544,9 @@ table.variations {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+}
+.variation-radios .variation-radio label {
+  text-transform: none;
 }
 .variation-radios .variation-radio input {
   height: 0;

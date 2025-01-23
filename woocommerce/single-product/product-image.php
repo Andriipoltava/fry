@@ -43,8 +43,12 @@ $wrapper_classes   = apply_filters(
         <?php
         $attachment_ids = array();
         $image_id = $product->get_image_id();
+        if (!$image_id) {
+            $image_id = get_option('woocommerce_placeholder_image', 0);
+        }
         $attachment_ids = array_merge([$image_id], $product->get_gallery_image_ids());
         foreach ($attachment_ids as $key => $attachment_id) {
+            if (!$attachment_id) continue;
             $size = 'square-500';
             $col = 'col-6';
             if ($key == 0) {

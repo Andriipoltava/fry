@@ -597,18 +597,15 @@ function sort_by_int_filter($result, $ob)
     return $arrayNew;
 }
 
-add_filter('yith_wcan_remove_current_term_from_active_filters', function ($show) {
-    if (is_search()) {
-        return false;
-    }
-    return $show;
-});
+
 add_filter('yith_wcan_active_filters_title', function ($show) {
     return '';
 });
+
 add_filter('yith_wcan_active_labels_with_titles', function ($show) {
     return false;
 });
+
 add_filter('yith_wcan_filter_title_classes', function ($array) {
     if (!is_search()){
         $array[2] = 'closed';

@@ -32,7 +32,7 @@ $container = get_theme_mod('fry_theme_container_type');
                     $link_title = $call_for_our_header['title'];
                     $link_target = $call_for_our_header['target'] ? $call_for_our_header['target'] : '_self'; ?>
                     <a href="<?php echo esc_url($link_url); ?>" target="<?php echo esc_attr($link_target); ?>"
-                       class="text-white  text-decoration-none d-flex align-items-center py-1 lh-1 mt-1 d-flex align-items-sm-start">
+                       class="text-white  text-decoration-none d-flex align-items-center py-sm-1 lh-1 mt-sm-1 d-flex align-items-sm-start">
                         <i class="fa fa-phone  pe-2" style="    font-size: 18px;"></i>
                         <span class="d-sm-inline d-none"> <?php echo esc_html($link_title); ?></span>
 

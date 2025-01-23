@@ -45,59 +45,27 @@ if ( ! function_exists( 'fry_theme_pagination' ) ) {
 			return;
 		}
 
-		$args = wp_parse_args(
-			$args,
-			array(
-				'mid_size'           => 2,
-				'prev_next'          => true,
-				'prev_text'          => _x( '&laquo;', 'previous set of posts', 'fry_theme' ),
-				'next_text'          => _x( '&raquo;', 'next set of posts', 'fry_theme' ),
-				'current'            => max( 1, get_query_var( 'paged' ) ),
-				'screen_reader_text' => __( 'Posts navigation', 'fry_theme' ),
-			)
-		);
+        $total = $GLOBALS['wp_query']->found_posts;
+        $current = count($GLOBALS['wp_query']->posts);
+        $current = '<span class="current_total">' . $current . '</span>';
+        if ($GLOBALS['wp_query']->max_num_pages > 1) : ?>
 
-		// Make sure we always get an array.
-		$args['type'] = 'array';
+            <div class="row">
+                <div class="col-12 text-center small mt-3 showing_total">
+                    <?php echo sprintf(
+                    /* translators: 1: Theme name, 2: Theme author */
+                        esc_html__('Showing %1$s of %2$d Products', 'fry_theme'),
+                        $current,
+                        $total
+                    ); ?>
+                </div>
+                <div class="col-12 text-center my-3">
+                    <a href="#" class="btn btn-primary load-more" data-load="<?php _e('Load More', 'fry_theme'); ?>"
+                       data-loading="<?php _e('Loading..', 'fry_theme'); ?>"> <?php _e('Load More', 'fry_theme'); ?> </a>
+                </div>
+            </div>
+        <?php endif;
 
-		/**
-		 * Array of paginated links.
-		 *
-		 * @var array<int,string>
-		 */
-		$links = paginate_links( $args );
-		if ( empty( $links ) ) {
-			return;
-		}
-		?>
 
-		<!-- The pagination component -->
-		<nav aria-labelledby="posts-nav-label">
-
-			<h2 id="posts-nav-label" class="screen-reader-text">
-				<?php echo esc_html( $args['screen_reader_text'] ); ?>
-			</h2>
-
-			<ul class="<?php echo esc_attr( $class ); ?>">
-
-				<?php
-				foreach ( $links as $link ) {
-					?>
-					<li class="page-item <?php echo strpos( $link, 'current' ) ? 'active' : ''; ?>">
-						<?php
-						$search  = array( 'page-numbers', 'dots' );
-						$replace = array( 'page-link', 'disabled dots' );
-						echo str_replace( $search, $replace, $link ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						?>
-					</li>
-					<?php
-				}
-				?>
-
-			</ul>
-
-		</nav>
-
-		<?php
 	}
 }

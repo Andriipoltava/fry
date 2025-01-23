@@ -1,5 +1,5 @@
 <div class="position-relative ">
-    <form action="<?php echo home_url(); ?>" method="get" role="search"
+    <form action="<?php echo  wc_get_page_permalink( 'shop' ); ?>" method="get" role="search"
           class="search-form d-flex align-items-center flex-nowrap bg-white rounded-1 border overflow-hidden py-1 rounded-3">
 
         <button class="border-0 p-0 border-0 bg-white px-2 lh-1">

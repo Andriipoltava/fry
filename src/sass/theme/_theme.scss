@@ -123,6 +123,16 @@ body {
   display: none;
 }
 
+.yith-wcan-filters .filter-item.checkbox > label {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.yith-wcan-filters .yith-wcan-filter .filter-items .filter-item.disabled {
+  display: none !important;
+}
+
 .yith-wcan-filter[data-taxonomy='product_cat'] li.filter-item.checkbox.level-0:has(.level-1) {
   display: block;
 }
@@ -138,7 +148,7 @@ body {
 }
 
 @include media-breakpoint-up(md) {
-  .yith-wcan-filters .filter-items {
+  .yith-wcan-filters .filter-items.level-0 {
     max-height: 269px;
     overflow-y: auto;
   }

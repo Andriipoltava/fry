@@ -58,64 +58,7 @@ if (!function_exists('fry_theme_add_site_info')) {
     }
 }
 
-//function tax_and_offset_homepage($query)
-//{
-//
-//    if (is_search()  && $query->is_main_query()) {
-//        $query->set('post_type', 'product');
-//
-//    }
-//    if (!is_admin() && $query->is_home() && $query->is_main_query()) {
-//        $latest_post = get_posts('post_type=post&numberposts=1');
-//        $last_ID = $latest_post[0]->ID;
-////        $query->set('offset', 1);
-//        $query->set('post__not_in', [$last_ID]);
-//
-//    }
-//}
-//
-//add_action('pre_get_posts', 'tax_and_offset_homepage');
 
-function homepage_offset_pagination($found_posts, $query)
-{
-
-    if ($query->is_home() && $query->is_main_query()) {
-
-//        $found_posts = $found_posts + 1;
-    }
-    return $found_posts;
-}
-
-add_filter('found_posts', 'homepage_offset_pagination', 10, 2);
-
-
-function search_by_sku( $search, $query_vars ) {
-    global $wpdb;
-    if(isset($query_vars->query['s']) && !empty($query_vars->query['s'])){
-        $args = array(
-            'posts_per_page'  => -1,
-            'post_type'       => 'product',
-            'meta_query' => array(
-                array(
-                    'key' => '_sku',
-                    'value' => $query_vars->query['s'],
-                    'compare' => 'LIKE'
-                )
-            )
-        );
-        $posts = get_posts($args);
-        if(empty($posts)) return $search;
-        $get_post_ids = array();
-        foreach($posts as $post){
-            $get_post_ids[] = $post->ID;
-        }
-        if(sizeof( $get_post_ids ) > 0 ) {
-            $search = str_replace( 'AND (((', "AND ((({$wpdb->posts}.ID IN (" . implode( ',', $get_post_ids ) . ")) OR (", $search);
-        }
-    }
-    return $search;
-}
-add_filter( 'posts_search', 'search_by_sku', 999, 2 );
 
 
 /**
@@ -128,19 +71,19 @@ add_filter('body_class', function (array $classes) {
     return array_filter($classes);
 });
 
-add_filter('yith_wcan_should_filter', 'fix_search_page_template', 10, 1);
-
-
-function fix_search_page_template($url)
-{
-
-    if (isset($_GET['s'])) {
-        global $wp_query;
-        $url = false;
-    }
-
-    return $url;
-}
+//add_filter('yith_wcan_should_filter', 'fix_search_page_template', 10, 1);
+//
+//
+//function fix_search_page_template($url)
+//{
+//
+//    if (isset($_GET['s'])) {
+//        global $wp_query;
+////        $url = false;
+//    }
+//
+//    return $url;
+//}
 
 add_action( 'template_redirect', 'no_products_found_redirect' );
 function no_products_found_redirect() {
@@ -150,4 +93,14 @@ function no_products_found_redirect() {
 //        wp_safe_redirect( get_permalink(  ).'?'.http_build_query($_GET) );
 //        exit();
     }
+}
+// Only show products in the front-end search results
+add_filter('pre_get_posts','lw_search_filter_pages');
+function lw_search_filter_pages($query) {
+    // Frontend search only
+    if ( ! is_admin() && $query->is_search() ) {
+        $query->set('post_type', 'product');
+        $query->set( 'wc_query', 'product_query' );
+    }
+    return $query;
 }

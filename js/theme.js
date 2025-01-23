@@ -13228,6 +13228,43 @@
 	      }
 	    });
 	  });
+	  console.log(12321);
+	  $('body').on('click', '.load-more', function (e) {
+	    e.preventDefault();
+	    const button = $(this);
+	    const data = {
+	      'action': 'fry_theme_loadmore',
+	      'page': fry_theme_loadmore_params.current_page,
+	      'query': fry_theme_loadmore_params.posts // that's how we get params from wp_localize_script() function
+	    };
+
+	    $.ajax({
+	      url: fry_theme_loadmore_params.ajaxurl,
+	      // AJAX handler
+	      data: data,
+	      type: 'POST',
+	      beforeSend: function (xhr) {
+	        button.text(button.data('loading')); // change the button text, you can also add a preloader image
+	      },
+
+	      success: function (data) {
+	        if (data) {
+	          $('.woo-loops .products').append(data.html);
+	          button.text(button.data('load'));
+	          fry_theme_loadmore_params.current_page = parseInt(fry_theme_loadmore_params.current_page) + 1;
+	          fry_theme_loadmore_params.curren_total = parseInt(fry_theme_loadmore_params.curren_total) + parseInt(data.curren_total);
+	          $('.current_total').text(fry_theme_loadmore_params.curren_total);
+	          if (parseInt(fry_theme_loadmore_params.current_page) == parseInt(fry_theme_loadmore_params.max_page)) {
+	            button.remove(); // if last page, remove the button
+	          }
+	          // you can also fire the "post-load" event here if you use a plugin that requires it
+	          // $( document.body ).trigger( 'post-load' );
+	        } else {
+	          button.remove(); // if no data, remove the button as well
+	        }
+	      }
+	    });
+	  });
 	});
 
 	exports.Alert = alert;

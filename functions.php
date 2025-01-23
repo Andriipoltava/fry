@@ -145,6 +145,7 @@ add_filter('woocommerce_dropdown_variation_attribute_options_args', function ($a
     $product = $args['product'];
     $attribute = $args['attribute'];
 
+
     if (empty($options) && !empty($product) && !empty($attribute)) {
         $attributes = $product->get_variation_attributes();
         $options = $attributes[$attribute];
@@ -165,4 +166,134 @@ add_filter('woocommerce_dropdown_variation_attribute_options_args', function ($a
         }
     }
     return $args;
-}, 99);
+}, 999999);
+
+add_action('wp_ajax_fry_theme_loadmore', 'fry_theme_loadmore_ajax_handler'); // wp_ajax_{action}
+add_action('wp_ajax_nopriv_fry_theme_loadmore', 'fry_theme_loadmore_ajax_handler'); // wp_ajax_nopriv_{action}
+
+function fry_theme_loadmore_ajax_handler()
+{
+
+    // prepare our arguments for the query
+    $args = json_decode(stripslashes($_POST['query']), true);
+    $args['paged'] = (int)$_POST['page'] + 1; // we need next page to be loaded
+    $args['post_status'] = 'publish';
+
+    ob_start();
+    // it is always better to use WP_Query but not here
+    query_posts($args);
+
+    if (have_posts()) :
+
+        // run the loop
+        while (have_posts()): the_post();
+
+            do_action('woocommerce_shop_loop');
+            wc_get_template_part('content', 'product');
+
+        endwhile;
+
+    endif;
+    global $wp_query;
+    $total = count($wp_query->posts);
+
+    $html = ob_get_clean();
+
+     wp_send_json(
+        [
+            'html' => $html,
+            'curren_total' => $total,
+        ]
+    );
+}
+
+function filter_btn_show_hide()
+{
+    ?>
+
+    <button class="border-0 bg-transparent hide-filter d-flex align-items-center">
+        <svg class="icon icon--filter me-2" width="16" xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 10 8">
+            <title>Filter</title>
+            <path d="M9.5,1.2H8.7C8.5,0.5,7.8,0,7,0S5.5,0.5,5.3,1.2H0.5C0.2,1.2,0,1.5,0,1.8s0.2,0.5,0.5,0.5h4.8C5.5,3,6.2,3.5,7,3.5
+  c0.8,0,1.5-0.5,1.7-1.2h0.8C9.8,2.2,10,2,10,1.8S9.8,1.2,9.5,1.2z M7,2.5c-0.4,0-0.8-0.3-0.8-0.8S6.6,1,7,1s0.8,0.3,0.8,0.8
+  S7.4,2.5,7,2.5z"></path>
+            <path d="M9.5,5.8H4.7C4.5,5,3.8,4.5,3,4.5C2.2,4.5,1.5,5,1.3,5.8H0.5C0.2,5.8,0,6,0,6.2s0.2,0.5,0.5,0.5h0.8C1.5,7.5,2.2,8,3,8
+  s1.5-0.5,1.7-1.2h4.8c0.3,0,0.5-0.2,0.5-0.5S9.8,5.8,9.5,5.8z M3,7C2.6,7,2.2,6.7,2.2,6.2S2.6,5.5,3,5.5s0.8,0.3,0.8,0.8S3.4,7,3,7z
+  "></path>
+        </svg>
+        <span class="hide-t"><?php echo esc_html__('Show Filters', 'fry_theme'); ?></span>
+        <span class="show-t"><?php echo esc_html__('Hide Filters', 'fry_theme'); ?></span>
+    </button>
+    <?php
+}
+
+function getNounForm(int $number, string $nominativeSingular, string $nominativePlural, string $genitivePlural): string
+{
+    // Get the last two digits to handle cases like 11, 21, etc.
+    $lastTwoDigits = $number % 100;
+    $lastDigit = $number % 10;
+
+    // Check if the last two digits are in the range 11-19 (always genitive plural)
+    if ($lastTwoDigits >= 11 && $lastTwoDigits <= 19) {
+        return $genitivePlural;
+    }
+
+    // Determine the form based on the last digit
+    switch ($lastDigit) {
+        case 1:
+            return $nominativeSingular;
+        case 2:
+        case 3:
+        case 4:
+            return $nominativePlural;
+        default:
+            return $genitivePlural;
+    }
+}
+
+
+add_shortcode('yith-woocommerce-ajax-product-filter-label', function () {
+
+    if (class_exists('YITH_WCAN_Query')) {
+        $yith = new YITH_WCAN_Query;
+        $active_filters = $yith->get_active_filters('view');
+
+        if ($active_filters) {
+            ?>
+            <div class="yith-wcan-active-filters custom-style enhanced">
+                <div class="yith-wcan-active-filtersno-titles <?php echo 'custom' === yith_wcan_get_option('yith_wcan_filters_style', 'default') ? 'custom-style' : ''; ?>">
+
+                    <?php do_action('yith_wcan_before_active_filters'); ?>
+
+                    <?php if (!empty($labels_heading) && !empty($active_filters)) : ?>
+                        <h4><?php echo esc_html($labels_heading); ?></h4>
+                    <?php endif; ?>
+
+                    <?php foreach ($active_filters as $filter => $options) : ?>
+                        <?php
+                        if (empty($options['values'])) :
+                            continue;
+                        endif;
+                        ?>
+                        <div class="active-filter">
+
+                            <?php foreach ($options['values'] as $value) : ?>
+                                <a
+                                        href="<?php echo esc_url(YITH_WCAN_Query()->get_filter_url(array(), $value['query_vars'])); ?>"
+                                    <?php yith_wcan_add_rel_nofollow_to_url(true, true); ?>
+                                        class="active-filter-label"
+                                        data-filters="<?php echo esc_attr(wp_json_encode($value['query_vars'])); ?>"
+                                >
+                                    <?php echo wp_kses_post($value['label']); ?>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <?php
+        }
+    }
+    return ob_get_clean();
+});
