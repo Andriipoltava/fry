@@ -105,7 +105,7 @@ $image_id = get_option('woocommerce_placeholder_image');
                                 <?php }; ?>
                                 <?php if ($link) { ?>
                                 <a class='text-decoration-none link  <?php echo 'link-' . $arrayStyle[$style] ?>'
-                                   href="<?php echo($link); ?>"><h6 class="pt-3"><?php echo $title; ?></h6></a>
+                                   href="<?php echo($link); ?>"><h6 class="pt-3 text-wrapper"><?php echo $title; ?></h6></a>
 
                                 <?php }; ?>
                             </div>

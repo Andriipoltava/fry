@@ -107,26 +107,35 @@ body {
   }
 }
 
-.yith-wcan-filter[data-taxonomy='product_cat'] li.filter-item.checkbox.active.level-0 > label {
-  display: none;
+.tax-product_cat {
+  .yith-wcan-filter[data-taxonomy='product_cat'] li.filter-item.checkbox.active.level-0 > label {
+    display: none;
+  }
+
+  .yith-wcan-filters .yith-wcan-filter[data-taxonomy='product_cat'] .filter-item.level-0.active ul {
+    padding-left: 0;
+  }
+
+  .yith-wcan-filter[data-taxonomy='product_cat'] li.filter-item.checkbox.level-0 {
+    display: none;
+  }
 }
 
-.yith-wcan-filters .yith-wcan-filter[data-taxonomy='product_cat'] .filter-item.level-0.active ul {
-  padding-left: 0;
-}
 
 .yith-wcan-filter[data-taxonomy='product_cat']:has(li.filter-item.checkbox.active.level-1) {
-  display: none;
+  //display: none;
 }
 
-.yith-wcan-filter[data-taxonomy='product_cat'] li.filter-item.checkbox.level-0 {
-  display: none;
-}
+
 
 .yith-wcan-filters .filter-item.checkbox > label {
   display: flex;
   gap: 5px;
-  align-items: center;
+  //align-items: center;
+}
+
+.yith-wcan-filters .filter-item.checkbox.level-0 > label:not(:last-child) {
+  margin-bottom: 10px;
 }
 
 .yith-wcan-filters .yith-wcan-filter .filter-items .filter-item.disabled {
@@ -143,6 +152,12 @@ body {
   }
 
   .yith-wcan-filters .yith-wcan-filter .filter-items .filter-item.disabled {
+    display: none !important;
+  }
+}
+
+.tax-product_cat {
+  .yith-wcan-filter[data-taxonomy=product_cat] .filter-content > .filter-items > .filter-item:not(.active) {
     display: none !important;
   }
 }
@@ -187,6 +202,12 @@ body {
   }
 }
 
+.sub-tax {
+  .yith-wcan-filter[data-taxonomy=product_cat] {
+    display: none;
+  }
+}
+
 .yith-wcan-filters .yith-wcan-filter .filter-title.collapsable {
 
   &:after {
@@ -212,6 +233,11 @@ body {
     }
   }
 
+}
+
+.yith-wcan-filters .yith-wcan-filter .filter-items {
+  display: flex;
+  flex-direction: column;
 }
 
 .menu-footer-copyright-container {
@@ -278,9 +304,9 @@ html{
       }
       .arh-#{$i}-#{$breakpoint} {
         aspect-ratio: 16 / $i;
-
       }
     }
+
   }
   .arh-#{$i} {
     aspect-ratio: 16 / $i;
@@ -288,3 +314,22 @@ html{
   }
 }
 
+@each $breakpoint, $container-max-width in $container-max-widths {
+  @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+    .arv-31-#{$breakpoint} {
+      aspect-ratio: 3 / 1;
+    }
+    .arv-34-#{$breakpoint} {
+      aspect-ratio: 3 / 4;
+    }
+    .arv-43-#{$breakpoint} {
+      aspect-ratio: 4 / 3;
+    }
+  }
+}
+
+@for $i from 16 through 6 {
+  .order-#{$i} {
+    order: $i;
+  }
+}

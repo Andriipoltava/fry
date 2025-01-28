@@ -27,14 +27,17 @@ if (!empty($block['className'])) {
 if (!empty($block['align'])) {
     $class_name .= ' align' . $block['align'];
 }
-
+$ar_pc = get_field('image_proportions_to_pc') ? get_field('image_proportions_to_pc') . '-xl' : 'arh-5-xl';
+$ar_laptop = get_field('image_proportions_to_laptop') ? get_field('image_proportions_to_laptop') . '-lg' : 'arh-6-lg';
+$ar_tablet = get_field('image_proportions_to_tablet') ? get_field('image_proportions_to_tablet') . '-md' : 'arh-10-md ';
+$ar_mobile = get_field('image_proportions_to_mobile') ? get_field('image_proportions_to_mobile') : ' ar-1';
 
 ?>
 
-<div <?php echo esc_attr($anchor); ?>class="<?php echo esc_attr($class_name); ?> arh-10-sm  arh-7-md arh-6-lg arh-5-xl   ar-1 "
+<div <?php echo esc_attr($anchor); ?>class="<?php echo esc_attr($class_name); ?>  <?php echo $ar_pc . ' ' . $ar_laptop . ' ' . $ar_tablet . ' ' . $ar_mobile ?>  "
      style="background-image: url(<?php echo $image ? wp_get_attachment_image_url($image['ID'], 'full') : '' ?>);background-size: cover;background-position: center">
     <div class="container-fluid   text-white h-100">
-        <div class="row  d-flex align-items-end   py-lg-5   justify-content-between h-100" >
+        <div class="row  d-flex align-items-end   py-5   justify-content-between h-100" >
             <div class="col-xxl-7 col-lg-10 col-xxl-5 ">
                 <?php if ($subtitle) echo "<span class='uppercase-subtitles'> $subtitle</span>"; ?>
                 <?php if ($title) echo "<h2 class='h3 pt-3' > $title</h2>"; ?>

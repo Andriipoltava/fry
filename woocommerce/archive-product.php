@@ -66,7 +66,7 @@ get_header('shop');
                     <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter"
                             aria-controls="offcanvasFilter"
                             class="border-0 bg-transparent hide-filter d-flex align-items-center">
-                        <span><?php _e('Filter & Sort','fry_theme'); ?></span>
+                        <span class="text-dark"><?php _e('Filter & Sort','fry_theme'); ?></span>
                         <svg class="icon icon--filter ms-2" width="16" xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 10 8">
                             <title>Filter</title>
@@ -102,7 +102,7 @@ get_header('shop');
                                                 <?php echo do_shortcode('[yith-woocommerce-ajax-product-filter-label]'); ?>
                 </div>
             </div>
-            <div class="row w-100 g-xxl-5 g-4  pt-4">
+            <div class="row w-100 g-xxl-5 g-sm-4  pt-4  gx-0">
                 <div class="col-md-4 col-lg-3 filter-bar  d-lg-block d-none">
                     <?php echo do_shortcode('[yith_wcan_filters slug="default-preset"]'); ?>
                 </div>
@@ -155,13 +155,17 @@ get_header('shop');
 
             ?>
         </div>
+
         <?php
         /**
          * Hook: woocommerce_after_main_content.
          *
          * @hooked woocommerce_output_content_wrapper_end - 10 (outputs closing divs for the content)
          */
-        do_action('woocommerce_after_main_content');
+        if (!is_search()){
+            do_action('woocommerce_after_main_content');
+        }
+
 
         /**
          * Hook: woocommerce_sidebar.

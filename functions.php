@@ -211,7 +211,7 @@ function filter_btn_show_hide()
 {
     ?>
 
-    <button class="border-0 bg-transparent hide-filter d-flex align-items-center">
+    <button class="border-0 bg-transparent hide-filter d-flex align-items-center ">
         <svg class="icon icon--filter me-2" width="16" xmlns="http://www.w3.org/2000/svg"
              viewBox="0 0 10 8">
             <title>Filter</title>
@@ -296,4 +296,16 @@ add_shortcode('yith-woocommerce-ajax-product-filter-label', function () {
         }
     }
     return ob_get_clean();
+});
+
+add_filter('body_class', function ($classes) {
+    if (is_tax()) { // Check if it's a taxonomy page
+        $term = get_queried_object(); // Get the current taxonomy term object
+        if (isset($term->parent) && $term->parent > 0) { // Check if the term has a parent
+            $classes[] = 'sub-tax'; // Add a custom class for sub-taxonomy
+        } else {
+            $classes[] = 'parent-tax'; // Add a class for parent taxonomy
+        }
+    }
+    return $classes;
 });

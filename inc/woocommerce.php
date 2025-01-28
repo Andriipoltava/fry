@@ -607,9 +607,18 @@ add_filter('yith_wcan_active_labels_with_titles', function ($show) {
 });
 
 add_filter('yith_wcan_filter_title_classes', function ($array) {
-    if (!is_search()){
+    if ( !isset($_GET)) {
         $array[2] = 'closed';
     }
 
     return $array;
 });
+
+add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, $item) {
+
+
+    if (get_field('order_menu', get_term($term_id))) {
+        $term_options['additional_classes'][] = 'order-' . get_field('order_menu', get_term($term_id));
+    }
+    return $term_options;
+}, 10, 3);

@@ -48,16 +48,23 @@ if ( ! function_exists( 'fry_theme_pagination' ) ) {
         $total = $GLOBALS['wp_query']->found_posts;
         $current = count($GLOBALS['wp_query']->posts);
         $current = '<span class="current_total">' . $current . '</span>';
+        $nominativeSingular = __('position', 'fry_theme'); // e.g.,
+        $nominativePlural = __('position', 'fry_theme'); // e.g.,
+        $genitivePlural = __('positions', 'fry_theme'); // e.g.,
+
+        $ps = getNounForm((int)$total, $nominativeSingular, $nominativePlural, $genitivePlural);
+
         if ($GLOBALS['wp_query']->max_num_pages > 1) : ?>
 
             <div class="row">
                 <div class="col-12 text-center small mt-3 showing_total">
                     <?php echo sprintf(
                     /* translators: 1: Theme name, 2: Theme author */
-                        esc_html__('Showing %1$s of %2$d Products', 'fry_theme'),
+                        esc_html__('Showing %1$s of %2$d ', 'fry_theme'),
                         $current,
                         $total
-                    ); ?>
+
+                    ).$ps ?>
                 </div>
                 <div class="col-12 text-center my-3">
                     <a href="#" class="btn btn-primary load-more" data-load="<?php _e('Load More', 'fry_theme'); ?>"

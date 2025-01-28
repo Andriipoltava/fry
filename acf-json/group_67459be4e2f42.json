@@ -112,16 +112,17 @@
                 "class": "",
                 "id": ""
             },
+            "wpml_cf_preferences": 0,
             "taxonomy": "product_cat",
             "add_term": 0,
             "save_terms": 0,
             "load_terms": 0,
             "return_format": "id",
-            "field_type": "checkbox",
+            "field_type": "multi_select",
+            "allow_null": 0,
             "allow_in_bindings": 0,
             "bidirectional": 0,
             "multiple": 0,
-            "allow_null": 0,
             "bidirectional_target": []
         },
         {
@@ -394,5 +395,5 @@
     "description": "",
     "show_in_rest": 0,
     "acfml_field_group_mode": "advanced",
-    "modified": 1736853154
+    "modified": 1737034700
 }

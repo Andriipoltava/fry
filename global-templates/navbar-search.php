@@ -13,7 +13,8 @@
 
         <input id="DesktopSearch" width="1"
                class="bg-transparent border-0 small pe-0 lh-1"
-               type="search" name="s" value="" placeholder="<?php echo __('SEARCH','fry_theme')?>">
+               type="search" name="s" value="<?php echo $_GET['s'] ?? '' ?>"
+               placeholder="<?php echo __('SEARCH', 'fry_theme') ?>">
 
     </form>
 </div>

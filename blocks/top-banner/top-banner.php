@@ -29,11 +29,16 @@ if (!empty($block['align'])) {
     $class_name .= ' align' . $block['align'];
 }
 
+$ar_pc = get_field('image_proportions_to_pc') ? get_field('image_proportions_to_pc') . '-xl' : '';
+$ar_laptop = get_field('image_proportions_to_laptop') ? get_field('image_proportions_to_laptop') . '-lg' : 'arh-6-lg';
+$ar_tablet = get_field('image_proportions_to_tablet') ? get_field('image_proportions_to_tablet') . '-sm' : 'arv-sm-14';
+$ar_mobile = get_field('image_proportions_to_mobile') ? get_field('image_proportions_to_mobile') : ' arv-16';
+
 
 ?>
 
 <div
-    <?php echo esc_attr($anchor); ?>class="<?php echo esc_attr($class_name); ?> w-100 arh-6-lg arv-sm-14 arv-16 position-relative"
+    <?php echo esc_attr($anchor); ?>class="<?php echo esc_attr($class_name); ?> w-100 <?php echo $ar_pc . ' ' . $ar_laptop . ' ' . $ar_tablet . ' ' . $ar_mobile ?> position-relative"
 >
     <?php if ($image) { ?>
         <?php echo wp_get_attachment_image($image['id'], 'full', null, ['class' => 'd-md-block d-none ofc position-absolute top-50 start-50  translate-middle w-100 h-100']); ?>
