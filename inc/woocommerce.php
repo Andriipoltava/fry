@@ -614,6 +614,12 @@ add_filter('yith_wcan_filter_title_classes', function ($array) {
     return $array;
 });
 
+add_filter('yith_wcan_default_modal_title', function () {
+    return __('Filter', 'fry_theme');
+});
+add_filter('yith_wcan_mobile_modal_opener_label', function () {
+    return __('Filter & Sort', 'fry_theme');
+});
 add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, $item) {
 
 
@@ -622,3 +628,128 @@ add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, 
     }
     return $term_options;
 }, 10, 3);
+
+
+
+add_shortcode('yith-woocommerce-ajax-product-filter-label', function () {
+
+    if (class_exists('YITH_WCAN_Query')) {
+        $yith = new YITH_WCAN_Query;
+        $active_filters = $yith->get_active_filters('view');
+//        var_dump($active_filters);
+
+        if ($active_filters) {
+            ?>
+            <div class="yith-wcan-active-filters custom-style enhanced">
+                <div class="yith-wcan-active-filtersno-titles <?php echo 'custom' === yith_wcan_get_option('yith_wcan_filters_style', 'default') ? 'custom-style' : ''; ?>">
+
+                    <?php do_action('yith_wcan_before_active_filters'); ?>
+
+                    <?php if (!empty($labels_heading) && !empty($active_filters)) : ?>
+                        <h4><?php echo esc_html($labels_heading); ?></h4>
+                    <?php endif; ?>
+                    <div class="active-filter">
+                        <?php foreach ($active_filters as $filter => $options) : ?>
+                            <?php
+
+                            ?>
+
+
+                            <?php foreach ($options['values'] as $value) :
+                                $href = esc_url(YITH_WCAN_Query()->get_filter_url(array(), $value['query_vars']));
+
+                                if (isset($value['query_vars']['product_cat'])) {
+                                    $replace = $value['query_vars']['product_cat'];
+
+                                    $href = preg_replace_callback('/product_cat=([^&]*)/', function ($matches) use ($replace) {
+                                        // Extract the product_cat value and split into an array
+                                        $product_cat_array = explode(',', $matches[1]);
+
+                                        // Remove the $replace value from the array
+                                        $product_cat_array = array_filter($product_cat_array, function ($slug) use ($replace) {
+                                            return $slug !== $replace;
+                                        });
+
+                                        // Rebuild the product_cat parameter
+                                        return 'product_cat=' . implode(',', $product_cat_array);
+                                    }, $href);
+                                }
+                                ?>
+                                <a href="<?php echo esc_url($href); ?>"
+                                    <?php yith_wcan_add_rel_nofollow_to_url(true, true); ?>
+                                   class="active-filter-label"
+                                   data-filters="<?php echo esc_attr(wp_json_encode($value['query_vars'])); ?>"
+                                >
+                                    <?php echo wp_kses_post($value['label']); ?>
+                                </a>
+                            <?php endforeach; ?>
+
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+    }
+    return ob_get_clean();
+});
+
+add_filter('body_class', function ($classes) {
+    if (is_tax() && !is_search()) { // Check if it's a taxonomy page
+        $classes[] = 'tax-filter';
+        $term = get_queried_object(); // Get the current taxonomy term object
+        if (isset($term->parent) && $term->parent > 0) { // Check if the term has a parent
+            $classes[] = 'sub-tax'; // Add a custom class for sub-taxonomy
+        } else {
+            $classes[] = 'parent-tax'; // Add a class for parent taxonomy
+        }
+    }
+    return $classes;
+});
+
+/**
+ * Filters the WP_Query in case of retrieving an ajax post list,
+ * e.g. links in the WYSIWYG post editor
+ *
+ * @param WP_Query $wpq
+ *
+ * @return WP_Query
+ */
+
+add_filter('pre_get_posts', function ($wpq) {
+
+    if ($wpq->is_main_query()) {
+
+        if (isset($_GET['product_cat'])) {
+            $yith_wcan_query = $wpq->get('product_cat');
+            $yith_wcans = explode(',', $yith_wcan_query);
+            $yith_wcans_new = [];
+            if ($yith_wcans) {
+                foreach ($yith_wcans as $item) {
+                    $term = get_term_by('slug', $item, 'product_cat');
+                    $yith_wcans_new[$term->term_id] = $item;
+                }
+                foreach ($yith_wcans_new as $key => $item) {
+                    $term = get_term($key, 'product_cat');
+
+                    if (isset($yith_wcans_new[$term->parent])) {
+                        unset($yith_wcans_new[$term->parent]);
+                    }
+
+                }
+                $yith_wcans_new = implode(',', $yith_wcans_new);
+                $wpq->set('product_cat', $yith_wcans_new);
+            }
+
+
+        }
+    }
+    return $wpq;
+});
+
+add_filter('yith_wcan_remove_current_term_from_active_filters', function ($show) {
+    if (is_search()) {
+        $show = false;
+    }
+    return $show;
+});

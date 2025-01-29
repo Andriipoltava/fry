@@ -124,7 +124,7 @@ $container = get_theme_mod('fry_theme_container_type');
 
                 } else {
                     ?>
-                    <div class="container-fluid no-results-found">
+                    <div class="no-results-found">
                         <?php
                         /**
                          * Hook: woocommerce_no_products_found.

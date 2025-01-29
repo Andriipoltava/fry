@@ -29,12 +29,11 @@ $genitivePlural = __( 'positions', 'fry_theme' ); // e.g.,
 
 	// phpcs:disable WordPress.Security
 	if ( 1 === intval( $total ) ) {
-        echo  getNounForm($total,$nominativeSingular,$nominativePlural,$genitivePlural);
+        echo  $nominativeSingular;
 
 	} else  {
 
-
-        echo $total.' '.getNounForm($total,$nominativeSingular,$nominativePlural,$genitivePlural);
+        echo $total.' '.getNounForm($total,$nominativePlural,$nominativePlural,$genitivePlural);
 	}
 	// phpcs:enable WordPress.Security
 	?>

@@ -1,6 +1,6 @@
 <div class="position-relative ">
     <form action="<?php echo  wc_get_page_permalink( 'shop' ); ?>" method="get" role="search"
-          class="search-form d-flex align-items-center flex-nowrap bg-white rounded-1 border overflow-hidden py-1 rounded-3">
+          class="search-form d-flex align-items-center flex-nowrap bg-white rounded-1 border overflow-hidden py-1 rounded-3 mb-0">
 
         <button class="border-0 p-0 border-0 bg-white px-2 lh-1">
             <svg class="icon icon--search" xmlns="http://www.w3.org/2000/svg" width="15" height="16"

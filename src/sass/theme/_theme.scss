@@ -140,27 +140,48 @@ body {
 
 .yith-wcan-filters .yith-wcan-filter .filter-items .filter-item.disabled {
   display: none !important;
+
+  &.active {
+    display: block !important;
+    opacity: 1;
+  }
 }
 
-.yith-wcan-filter[data-taxonomy='product_cat'] li.filter-item.checkbox.level-0:has(.level-1) {
-  display: block;
+.filters-container > .clear-selection {
+  display: none;
 }
 
-.archive {
+
+.yith-wcan-filter[data-taxonomy='product_cat'] li.filter-item.checkbox {
+  &.level-0:has(.level-1) {
+    display: block;
+  }
+
+  &.disabled:has(.filter-item.active) {
+    display: block !important;
+    opacity: 1;
+
+    .filter-item.active {
+
+    }
+  }
+}
+
+.tax-filter {
   .yith-wcan-filter[data-taxonomy='product_cat'] .clear-selection {
     display: none;
   }
 
   .yith-wcan-filters .yith-wcan-filter .filter-items .filter-item.disabled {
     display: none !important;
-  }
-}
 
-.tax-product_cat {
+  }
+
   .yith-wcan-filter[data-taxonomy=product_cat] .filter-content > .filter-items > .filter-item:not(.active) {
     display: none !important;
   }
 }
+
 
 @include media-breakpoint-up(md) {
   .yith-wcan-filters .filter-items.level-0 {
@@ -186,7 +207,7 @@ body {
 }
 
 
-.wpml-ls-legacy-list-vertical{
+.wpml-ls-legacy-list-vertical {
   margin-bottom: 0;
 }
 
@@ -249,14 +270,15 @@ body {
     }
   }
 }
-.about-banner{
-  .bg{
+
+.about-banner {
+  .bg {
     background-image: var(--img-bg);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     background-color: #252525;
-    @include media-breakpoint-down(md){
+    @include media-breakpoint-down(md) {
       background-image: var(--img-bg-mobile);
     }
   }
@@ -265,18 +287,23 @@ body {
 .accordion-button::after {
   background-position: center;
 }
-#wpadminbar{
+
+#wpadminbar {
   position: absolute;
 }
-html{
-  margin-top: 0!important;
+
+html {
+  margin-top: 0 !important;
 }
+
 .dropdown-item {
   white-space: normal;
 }
+
 .ar-1 {
   aspect-ratio: 1;
 }
+
 @for $i from 16 through 1 {
 
   @each $breakpoint, $container-max-width in $container-max-widths {
@@ -332,4 +359,4 @@ html{
   .order-#{$i} {
     order: $i;
   }
-}
+  }
