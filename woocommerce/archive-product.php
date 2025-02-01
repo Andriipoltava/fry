@@ -47,7 +47,10 @@ get_header('shop');
             <div class="row g-4">
 
                 <div class="col-lg-12  d-lg-none d-flex flex-wrap justify-content-between">
-                    <?php echo woocommerce_result_count(); ?>
+                    <?php woocommerce_result_count();
+                    if (!wc_get_loop_prop('is_paginated') || !woocommerce_products_will_display()) {
+                        echo '<span></span>';
+                    } ?>
 
                     <div class="border-0 bg-transparent  d-flex align-items-centerd d-lg-none">
                         <?php echo do_shortcode('[yith_wcan_mobile_modal_opener]'); ?>

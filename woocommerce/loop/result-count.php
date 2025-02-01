@@ -29,7 +29,7 @@ $genitivePlural = __( 'positions', 'fry_theme' ); // e.g.,
 
 	// phpcs:disable WordPress.Security
 	if ( 1 === intval( $total ) ) {
-        echo  $nominativeSingular;
+        echo  $total. ' '. $nominativeSingular;
 
 	} else  {
 

@@ -76,3 +76,42 @@ if ( ! function_exists( 'fry_theme_pagination' ) ) {
 
 	}
 }
+
+add_action('wp_ajax_fry_theme_loadmore', 'fry_theme_loadmore_ajax_handler'); // wp_ajax_{action}
+add_action('wp_ajax_nopriv_fry_theme_loadmore', 'fry_theme_loadmore_ajax_handler'); // wp_ajax_nopriv_{action}
+
+function fry_theme_loadmore_ajax_handler()
+{
+
+    // prepare our arguments for the query
+    $args = json_decode(stripslashes($_POST['query']), true);
+    $args['paged'] = (int)$_POST['page'] + 1; // we need next page to be loaded
+    $args['post_status'] = 'publish';
+
+    ob_start();
+    // it is always better to use WP_Query but not here
+    query_posts($args);
+
+    if (have_posts()) :
+
+        // run the loop
+        while (have_posts()): the_post();
+
+            do_action('woocommerce_shop_loop');
+            wc_get_template_part('content', 'product');
+
+        endwhile;
+
+    endif;
+    global $wp_query;
+    $total = count($wp_query->posts);
+
+    $html = ob_get_clean();
+
+    wp_send_json(
+        [
+            'html' => $html,
+            'curren_total' => $total,
+        ]
+    );
+}

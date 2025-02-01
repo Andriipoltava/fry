@@ -605,9 +605,14 @@ add_filter('yith_wcan_active_filters_title', function ($show) {
 add_filter('yith_wcan_active_labels_with_titles', function ($show) {
     return false;
 });
+add_filter('yith_wcan_filter_reset_button_class', function ($class) {
+
+    return 'yith-wcan-reset-filters reset-filters mb-0';
+});
 
 add_filter('yith_wcan_filter_title_classes', function ($array) {
-    if ( !isset($_GET)) {
+
+    if (empty($_GET)) {
         $array[2] = 'closed';
     }
 
@@ -618,7 +623,7 @@ add_filter('yith_wcan_default_modal_title', function () {
     return __('Filter', 'fry_theme');
 });
 add_filter('yith_wcan_mobile_modal_opener_label', function () {
-    return __('Filter & Sort', 'fry_theme');
+    return __('Filter', 'fry_theme');
 });
 add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, $item) {
 
@@ -684,7 +689,9 @@ add_shortcode('yith-woocommerce-ajax-product-filter-label', function () {
                                 </a>
                             <?php endforeach; ?>
 
+
                         <?php endforeach; ?>
+                        <?php echo do_shortcode('[yith_wcan_reset_button]'); ?>
                     </div>
                 </div>
             </div>
@@ -716,9 +723,209 @@ add_filter('body_class', function ($classes) {
  * @return WP_Query
  */
 
-add_filter('pre_get_posts', function ($wpq) {
+add_filter('yith_wcan_filtered_products_query', function ($args) {
 
-    if ($wpq->is_main_query()) {
+    global $wp_query;
+//    return $args;
+    if (isset($_GET['product_cat'])) {
+        $yith_wcan_query = $wp_query->get('product_cat');
+        $yith_wcans = explode(',', $yith_wcan_query);
+        $yith_wcans_new = [];
+        if ($yith_wcans && count($yith_wcans) > 1) {
+            foreach ($yith_wcans as $item) {
+                $term = get_term_by('slug', $item, 'product_cat');
+                $yith_wcans_new[$term->term_id] = $item;
+            }
+
+            foreach ($yith_wcans_new as $key => $item) {
+                $term = get_term($key, 'product_cat');
+
+                if (isset($yith_wcans_new[$term->parent])) {
+                    unset($yith_wcans_new[$term->parent]);
+                }
+
+            }
+            $product_ids = get_posts([
+                'post_type' => 'product',
+                'fields' => 'ids',
+                'tax_query' => [
+                    [
+                        'taxonomy' => 'product_cat',
+                        'field' => 'term_id',
+                        'terms' => array_keys($yith_wcans_new),
+                        'operator' => 'IN'
+                    ]
+                ]
+            ]);
+
+            if ($product_ids) {
+//                $args['post__in'] = $product_ids;
+
+//                $wp_query->set('post__in', $product_ids);
+            }
+
+
+        }
+
+
+    }
+
+    return $args;
+
+});
+function filter_qq($wpq)
+{
+
+
+    if (isset($_GET['product_cat'])) {
+        $yith_wcan_query_can = $wpq->get('yith_wcan_query');
+        $product_cat = $wpq->get('product_cat');
+        if (!empty($yith_wcan_query_can) && isset($yith_wcan_query_can['product_cat'])) {
+            $yith_wcan_query = $yith_wcan_query_can['product_cat'];
+
+            $yith_wcans = explode(',', $yith_wcan_query);
+            $yith_wcans_new = [];
+            if ($yith_wcans && count($yith_wcans) > 1) {
+                foreach ($yith_wcans as $item) {
+                    $term = get_term_by('slug', $item, 'product_cat');
+
+                    if ($term && is_object($term)) {
+                        $yith_wcans_new[$term->term_id] = $item;
+                    }
+
+                }
+
+                foreach ($yith_wcans_new as $key => $item) {
+                    $term = get_term($key, 'product_cat');
+
+                    if (isset($yith_wcans_new[$term->parent])) {
+                        unset($yith_wcans_new[$term->parent]);
+                    }
+                }
+
+                $yith_wcans_str = implode(',', $yith_wcans_new);
+                $yith_wcan_query_can['product_cat'] = $yith_wcans_str;
+                $wpq->set('yith_wcan_query', $yith_wcan_query_can);
+                if ($product_cat) {
+                    $wpq->set('product_cat', $yith_wcans_str);
+                }
+            }
+
+        }
+
+
+    }
+
+
+}
+
+add_action('yith_wcan_after_query', function ($wpq) {
+
+    filter_qq($wpq);
+//    get_post_in_products($wpq);
+
+});
+
+add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, $item) {
+//   var_dump($term_id);
+    $term_q = get_term($term_id);
+    global $wp_query;
+    $array = [];
+
+    if (have_posts()) :
+
+        // run the loop
+        while (have_posts()): the_post();
+
+            $terms = get_the_terms(get_the_ID(), $term_q->taxonomy);
+
+            foreach ($terms as $term) {
+                if ($term->term_id == $term_id) {
+                    $array[get_the_ID()] = get_the_ID();
+                }
+
+
+            }
+
+        endwhile;
+
+    endif;
+    $qu = $_GET ?? [];
+    if (isset($qu['yith_wcan'])) {
+        unset($qu['yith_wcan']);
+    }
+    if (isset($qu['product_cat'])) {
+        $product_cat = $qu['product_cat'];
+        $product_cat_array = explode(',', $product_cat);
+
+        if (count($product_cat_array) == 1 && count($array) == 0 && $term_q->taxonomy == 'product_cat') {
+            $term_options['additional_classes'][] = 'disabled';
+
+        }
+        if (count($product_cat_array) == 1) {
+            unset($qu['product_cat']);
+        }
+
+        if (count($qu)) {
+            foreach ($qu as $key => $item) {
+                if (strpos($key, 'query_type') !== false) {
+                    unset($qu[$key]);
+                }
+
+            }
+            foreach ($qu as $key => $item) {
+                $key = str_replace('filter', 'pa', $key);
+                if (count($array) == 0 && $term_q->taxonomy !== $key) {
+                    $term_options['additional_classes'][] = 'disabled';
+                }
+            }
+        }
+    } else {
+        if (count($array) == 0) {
+            $term_options['additional_classes'][] = 'disabled';
+        }
+    }
+
+
+    return $term_options;
+}, 10, 3);
+
+
+function get_post_in_products($wpq)
+{
+
+    if (is_tax() && !is_search()) { // Check if it's a taxonomy page
+        $term = get_queried_object(); // Get the current taxonomy term object
+        $termchildren[] = $term->term_id;
+
+        if (isset($term->parent) && $term->parent == 0) { // Check if the term has a parent
+            $termchildren = array_merge($termchildren, get_term_children($term->term_id, $term->taxonomy));
+        }
+
+        $args = array(
+            'post_type' => 'product',
+            'fields' => 'ids',
+            'numberposts' => -1,
+            'tax_query' => [
+                [
+                    'taxonomy' => 'product_cat',
+                    'field' => 'term_id',
+                    'terms' => $termchildren,
+                ]
+            ]
+        );
+        $products = get_posts($args);
+        if (count($products)) {
+            $wpq->set('post__in', $products);
+        }
+    }
+
+}
+
+add_filter('woocommerce_product_query', 'pre_get_posts_filter');
+
+function pre_get_posts_filter($wpq)
+{
 
         if (isset($_GET['product_cat'])) {
             $yith_wcan_query = $wpq->get('product_cat');
@@ -729,6 +936,7 @@ add_filter('pre_get_posts', function ($wpq) {
                     $term = get_term_by('slug', $item, 'product_cat');
                     $yith_wcans_new[$term->term_id] = $item;
                 }
+
                 foreach ($yith_wcans_new as $key => $item) {
                     $term = get_term($key, 'product_cat');
 
@@ -737,15 +945,74 @@ add_filter('pre_get_posts', function ($wpq) {
                     }
 
                 }
+
                 $yith_wcans_new = implode(',', $yith_wcans_new);
+
                 $wpq->set('product_cat', $yith_wcans_new);
             }
 
 
         }
-    }
+
     return $wpq;
-});
+}
+
+/**
+ * APPLY_FILTERS: yith_wcan_query_relevant_term_objects
+ *
+ * Filter list of products belonging to specified terms, that match current filters
+ *
+ * @param array $match Array of matched product ids
+ * @param string $taxonomy Taxonomy of the term to check,
+ * @param int $term_id Term id to which products must belong.
+ * @param bool $exclude_taxonomy Whether to exclude current taxonomy from applied filters.
+ *
+ * @return array
+ */
+add_filter('yith_wcan_query_relevant_term_objects', function ($match, $taxonomy, $term_id, $exclude_taxonomy) {
+
+    if (is_tax() && !is_search()) { // Check if it's a taxonomy page
+        $term = get_queried_object(); // Get the current taxonomy term object
+        $termchildren[] = $term->term_id;
+
+        if (isset($term->parent) && $term->parent == 0) { // Check if the term has a parent
+            $termchildren = array_merge($termchildren, get_term_children($term->term_id, $term->taxonomy));
+        }
+
+        $args = array(
+            'post_type' => 'product',
+            'fields' => 'ids',
+            'numberposts' => -1,
+            'tax_query' => [
+                [
+                    'taxonomy' => $term->taxonomy,
+                    'field' => 'term_id',
+                    'terms' => $termchildren,
+                ]
+            ]
+        );
+        $products = get_posts($args);
+        $match_new = [];
+
+//        var_dump(get_term($term_id)->slug);
+        foreach ($products as $product) {
+            $terms = get_the_terms($product, $taxonomy);
+            foreach ($terms as $term) {
+                if ($term->term_id == $term_id) {
+                    $match_new[] = $term_id;
+                }
+            }
+        }
+        if (count($match_new)) {
+            $match = $match_new;
+        }
+
+
+    }
+
+
+    return $match;
+}, 10, 4);
 
 add_filter('yith_wcan_remove_current_term_from_active_filters', function ($show) {
     if (is_search()) {

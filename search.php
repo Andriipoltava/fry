@@ -49,7 +49,6 @@ $container = get_theme_mod('fry_theme_container_type');
                             <?php echo do_shortcode('[yith_wcan_filters slug="default-preset"]'); ?>
                             <div class="text-center">
                                 <?php echo do_shortcode('[yith_wcan_reset_button]'); ?>
-
                             </div>
                         </div>
                     </div>
