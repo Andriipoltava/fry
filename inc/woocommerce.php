@@ -725,57 +725,57 @@ add_filter('body_class', function ($classes) {
 
 add_filter('yith_wcan_filtered_products_query', function ($args) {
 
-    global $wp_query;
-//    return $args;
-    if (isset($_GET['product_cat'])) {
-        $yith_wcan_query = $wp_query->get('product_cat');
-        $yith_wcans = explode(',', $yith_wcan_query);
-        $yith_wcans_new = [];
-        if ($yith_wcans && count($yith_wcans) > 1) {
-            foreach ($yith_wcans as $item) {
-                $term = get_term_by('slug', $item, 'product_cat');
-                $yith_wcans_new[$term->term_id] = $item;
-            }
-
-            foreach ($yith_wcans_new as $key => $item) {
-                $term = get_term($key, 'product_cat');
-
-                if (isset($yith_wcans_new[$term->parent])) {
-                    unset($yith_wcans_new[$term->parent]);
-                }
-
-            }
-            $product_ids = get_posts([
-                'post_type' => 'product',
-                'fields' => 'ids',
-                'tax_query' => [
-                    [
-                        'taxonomy' => 'product_cat',
-                        'field' => 'term_id',
-                        'terms' => array_keys($yith_wcans_new),
-                        'operator' => 'IN'
-                    ]
-                ]
-            ]);
-
-            if ($product_ids) {
-//                $args['post__in'] = $product_ids;
-
-//                $wp_query->set('post__in', $product_ids);
-            }
-
-
-        }
-
-
-    }
+//    global $wp_query;
+////    return $args;
+//    if (isset($_GET['product_cat'])) {
+//        $yith_wcan_query = $wp_query->get('product_cat');
+//        $yith_wcans = explode(',', $yith_wcan_query);
+//        $yith_wcans_new = [];
+//        if ($yith_wcans && count($yith_wcans) > 1) {
+//            foreach ($yith_wcans as $item) {
+//                $term = get_term_by('slug', $item, 'product_cat');
+//                $yith_wcans_new[$term->term_id] = $item;
+//            }
+//
+//            foreach ($yith_wcans_new as $key => $item) {
+//                $term = get_term($key, 'product_cat');
+//
+//                if (isset($yith_wcans_new[$term->parent])) {
+//                    unset($yith_wcans_new[$term->parent]);
+//                }
+//
+//            }
+//            $product_ids = get_posts([
+//                'post_type' => 'product',
+//                'fields' => 'ids',
+//                'tax_query' => [
+//                    [
+//                        'taxonomy' => 'product_cat',
+//                        'field' => 'term_id',
+//                        'terms' => array_keys($yith_wcans_new),
+//                        'operator' => 'IN'
+//                    ]
+//                ]
+//            ]);
+//
+//            if ($product_ids) {
+//                var_dump($product_ids);
+////                $args['post__in'] = $product_ids;
+//
+////                $wp_query->set('post__in', $product_ids);
+//            }
+//
+//
+//        }
+//
+//
+//    }
 
     return $args;
 
 });
 function filter_qq($wpq)
 {
-
 
     if (isset($_GET['product_cat'])) {
         $yith_wcan_query_can = $wpq->get('yith_wcan_query');
@@ -792,9 +792,7 @@ function filter_qq($wpq)
                     if ($term && is_object($term)) {
                         $yith_wcans_new[$term->term_id] = $item;
                     }
-
                 }
-
                 foreach ($yith_wcans_new as $key => $item) {
                     $term = get_term($key, 'product_cat');
 
@@ -808,6 +806,7 @@ function filter_qq($wpq)
                 $wpq->set('yith_wcan_query', $yith_wcan_query_can);
                 if ($product_cat) {
                     $wpq->set('product_cat', $yith_wcans_str);
+                    $_SESSION['yith_wcan_query']=$wpq->query_vars;
                 }
             }
 
@@ -830,25 +829,24 @@ add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, 
     $term_q = get_term($term_id);
     global $wp_query;
     $array = [];
+    $arrayA = [];
     $arg = $wp_query->query;
     $arg['posts_per_page'] = -1;
-    $loop = new WP_Query($arg);
+    $arg['fields'] = 'ids';
 
-    if ($loop->have_posts()) :
+    $loop = $_SESSION['yith_wcan_array'] ?? get_posts($arg);
 
-        // run the loop
-        while ($loop->have_posts()): $loop->the_post();
-            $terms = get_the_terms(get_the_ID(), $term_q->taxonomy);
-            foreach ($terms as $term) {
-                if ($term->term_id == $term_id) {
-                    $array[get_the_ID()] = get_the_ID();
-                }
 
+    foreach ($loop as $post) {
+        $terms = get_the_terms($post, $term_q->taxonomy);
+        foreach ($terms as $term) {
+            if ($term->term_id == $term_id) {
+                $array[$post] = $post;
             }
+        }
+    }
 
-        endwhile;
 
-    endif;
     $qu = $_GET ?? [];
     if (isset($qu['yith_wcan'])) {
         unset($qu['yith_wcan']);
@@ -857,8 +855,12 @@ add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, 
         $product_cat = $qu['product_cat'];
         $product_cat_array = explode(',', $product_cat);
 
+
         if (count($product_cat_array) == 1 && count($array) == 0 && $term_q->taxonomy == 'product_cat') {
             $term_options['additional_classes'][] = 'disabled';
+//            var_dump($term_options['label']);
+        } else {
+//            var_dump($term_options['label'], count($array));
 
         }
         if (count($product_cat_array) == 1) {
@@ -876,7 +878,6 @@ add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, 
                 $key = str_replace('filter', 'pa', $key);
                 if (count($array) == 0 && $term_q->taxonomy !== $key) {
                     $term_options['additional_classes'][] = 'disabled';
-                    $term_options['additional_classes'][] = 'disabled2';
                 }
             }
         }
@@ -919,6 +920,7 @@ function get_post_in_products($wpq)
         $products = get_posts($args);
         if (count($products)) {
             $wpq->set('post__in', $products);
+            $_SESSION['yith_wcan_query']=$wpq->query_vars;
         }
     }
 
@@ -938,21 +940,21 @@ function pre_get_posts_filter($wpq)
                     $term = get_term_by('slug', $item, 'product_cat');
                     $yith_wcans_new[$term->term_id] = $item;
                 }
-
                 foreach ($yith_wcans_new as $key => $item) {
                     $term = get_term($key, 'product_cat');
 
                     if (isset($yith_wcans_new[$term->parent])) {
                         unset($yith_wcans_new[$term->parent]);
                     }
-
                 }
 
                 $yith_wcans_new = implode(',', $yith_wcans_new);
 
                 $wpq->set('product_cat', $yith_wcans_new);
-            }
 
+                $_SESSION['yith_wcan_query']=$wpq->query_vars;
+            }
+//            var_dump($wpq->query);
 
         }
 
@@ -1021,4 +1023,38 @@ add_filter('yith_wcan_remove_current_term_from_active_filters', function ($show)
         $show = false;
     }
     return $show;
+});
+
+function get_list_filter()
+{
+
+    $yith_wcan_query = $_SESSION['yith_wcan_query'] ?? '';
+    if (empty($yith_wcan_query)) {
+        global $wp_query;
+        $yith_wcan_query = $wp_query->query_vars;
+    }
+    $array = [];
+    $arg = $yith_wcan_query;
+    $arg['posts_per_page'] = -1;
+    $loop = new WP_Query($arg);
+
+    if ($loop->have_posts()) :
+        // run the loop
+        while ($loop->have_posts()): $loop->the_post();
+            $array[] = get_the_ID();
+        endwhile;
+
+    endif;
+    wp_reset_postdata();
+    if (count($array)) {
+        $_SESSION['yith_wcan_array'] = $array;
+        return $array;
+    }
+
+    return null;
+}
+
+add_action('wp_head', function () {
+    get_list_filter();
+
 });
