@@ -826,10 +826,23 @@ add_action('yith_wcan_after_query', function ($wpq) {
 
 add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, $item) {
 
+    $qu = $_GET ?? [];
+    if (is_search()) {
+
+        if (in_array('disabled', $term_options['additional_classes'])) {
+            $term_options['additional_classes'][] = 'd-none';
+        }
+
+        return $term_options;
+    }
+    if (!count($qu)) {
+        return $term_options;
+    }
+
     $term_q = get_term($term_id);
     global $wp_query;
     $array = [];
-    $arrayA = [];
+
     $arg = $wp_query->query;
     $arg['posts_per_page'] = -1;
     $arg['fields'] = 'ids';
