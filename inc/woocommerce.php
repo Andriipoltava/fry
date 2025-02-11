@@ -492,7 +492,7 @@ function variation_data_custom_field_conditional_display($data, $product, $varia
         $html .= '<div>';
 
         $html .= '<div><b>' . $taxonomy_label . ':&nbsp;&nbsp;</b>';
-        $html .= '<span>' . $taxonomy_value . ' </span> ';
+        $html .= '<span class="text-lowercase">' . $taxonomy_value . ' </span> ';
         $html .= '</div>';
     }
     $attr_p = $product->get_attributes();
@@ -510,7 +510,7 @@ function variation_data_custom_field_conditional_display($data, $product, $varia
         $taxonomy_value = $product->get_attribute($attr['name']);
 
         $html .= '<b>' . $taxonomy_label . ':&nbsp;&nbsp;</b>';
-        $html .= '<span>' . $taxonomy_value . ' </span> ';
+        $html .= '<span class="text-lowercase">' . $taxonomy_value . ' </span> ';
         $html .= '</div>';
     }
 
@@ -547,7 +547,7 @@ add_action('woocommerce_single_product_summary', function () {
             $taxonomy_label = wc_attribute_label($attr['name']);
             $taxonomy_value = $product->get_attribute($attr['name']);
             $html .= '<b>' . $taxonomy_label . ':&nbsp;&nbsp;</b>';
-            $html .= '<span>' . $taxonomy_value . ' </span> ';
+            $html .= '<span class="text-lowercase">' . $taxonomy_value . ' </span> ';
             $html .= '</div>';
 
         }
@@ -822,28 +822,27 @@ function filter_qq($wpq)
 add_action('yith_wcan_after_query', function ($wpq) {
 
     filter_qq($wpq);
-//    get_post_in_products($wpq);
 
 });
 
 add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, $item) {
-//   var_dump($term_id);
+
     $term_q = get_term($term_id);
     global $wp_query;
     $array = [];
+    $arg = $wp_query->query;
+    $arg['posts_per_page'] = -1;
+    $loop = new WP_Query($arg);
 
-    if (have_posts()) :
+    if ($loop->have_posts()) :
 
         // run the loop
-        while (have_posts()): the_post();
-
+        while ($loop->have_posts()): $loop->the_post();
             $terms = get_the_terms(get_the_ID(), $term_q->taxonomy);
-
             foreach ($terms as $term) {
                 if ($term->term_id == $term_id) {
                     $array[get_the_ID()] = get_the_ID();
                 }
-
 
             }
 
@@ -877,13 +876,16 @@ add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, 
                 $key = str_replace('filter', 'pa', $key);
                 if (count($array) == 0 && $term_q->taxonomy !== $key) {
                     $term_options['additional_classes'][] = 'disabled';
+                    $term_options['additional_classes'][] = 'disabled2';
                 }
             }
         }
     } else {
+
         if (count($array) == 0) {
             $term_options['additional_classes'][] = 'disabled';
         }
+
     }
 
 
