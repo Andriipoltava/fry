@@ -38,11 +38,12 @@ if (!empty($block['align'])) {
     <div class="container-fluid py-5 text-white"    >
         <div class="row   d-flex align-items-lg-end  justify-content-between bg"
              style=" --img-bg: url( <?php echo  $imageBG ?>);--img-bg-mobile: url( <?php echo $imageBGmobile ?>);">
-            <div class="col-12 offset-xxl-1 col-xl-11  py-5 my-lg-5 pb-3 mb-md-5 px-4">
+            <div class="col-12 offset-xxl-1 col-xl-11  py-sm-5 my-lg-5 pb-3 mb-md-5 px-4">
                 <?php if ($subtitle) echo "<span class='uppercase-subtitles'> $subtitle</span>"; ?>
                 <?php if ($title) echo "<h2 style='    word-break: break-all;' > $title</h2>"; ?>
 
             </div>
+            <div class="d-md-none" style="    height: 200px;"></div>
 
             <?php
             if ($link):
@@ -50,7 +51,7 @@ if (!empty($block['align'])) {
                 $link_title = $link['title'];
                 $link_target = $link['target'] ? $link['target'] : '_self';
                 ?>
-                <div class="col-lg-5 col-xl-4 offset-lg-7  pt-lg-5 mt-md-5 px-4 pb-md-0 pb-5">
+                <div class="col-lg-5 col-xl-4 offset-lg-7  pt-lg-5 mt-md-5 px-4 pb-md-0">
                     <?php if ($description) echo "<div> $description</div>"; ?>
                     <div>
                         <a class="link link-light mt-3" href="<?php echo esc_url($link_url); ?>"

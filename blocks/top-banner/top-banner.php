@@ -53,6 +53,19 @@ $ar_mobile = get_field('image_proportions_to_mobile') ? get_field('image_proport
                 <?php if ($subtitle) echo "<span class='uppercase-subtitles'> $subtitle</span>"; ?>
                 <?php if ($title) echo "<h2 class='h3 pt-3' > $title</h2>"; ?>
                 <?php if ($description) echo "<div> $description</div>"; ?>
+                <?php
+                if ($link):
+                    $link_url = $link['url'];
+                    $link_title = $link['title'];
+                    $link_target = $link['target'] ? $link['target'] : '_self';
+                    ?>
+                    <div class=" d-lg-none">
+                            <a class="link link-light mt-3" href="<?php echo esc_url($link_url); ?>"
+                               target="<?php echo esc_attr($link_target); ?>"><?php echo esc_html($link_title); ?></a>
+
+                    </div>
+
+                <?php endif; ?>
             </div>
 
             <?php
@@ -62,7 +75,7 @@ $ar_mobile = get_field('image_proportions_to_mobile') ? get_field('image_proport
                 $link_target = $link['target'] ? $link['target'] : '_self';
                 ?>
                 <div class="col-lg-2  py-lg-5 d-lg-block d-none">
-                    <div>
+                    <div class="pb-lg-3">
                         <a class="btn-light btn mt-3" href="<?php echo esc_url($link_url); ?>"
                            target="<?php echo esc_attr($link_target); ?>"><?php echo esc_html($link_title); ?></a>
                     </div>

@@ -83,6 +83,35 @@
             "allow_in_bindings": 0
         },
         {
+            "key": "field_67ada3c2cbd34",
+            "label": "Align-items",
+            "name": "align-items",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "wpml_cf_preferences": 0,
+            "choices": {
+                "end": "end",
+                "center": "center",
+                "start": "start"
+            },
+            "default_value": false,
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "allow_in_bindings": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
             "key": "field_6752dc6a1dec3",
             "label": "Background",
             "name": "background",

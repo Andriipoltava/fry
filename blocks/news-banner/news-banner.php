@@ -12,6 +12,7 @@ $title = get_field('title');
 $description = get_field('description');
 $link = get_field('link');
 $image = get_field('background');
+$alignitems = get_field('align-items') ?: 'end';
 
 // Support custom "anchor" values.
 $anchor = '';
@@ -37,8 +38,8 @@ $ar_mobile = get_field('image_proportions_to_mobile') ? get_field('image_proport
 <div <?php echo esc_attr($anchor); ?>class="<?php echo esc_attr($class_name); ?>  <?php echo $ar_pc . ' ' . $ar_laptop . ' ' . $ar_tablet . ' ' . $ar_mobile ?>  "
      style="background-image: url(<?php echo $image ? wp_get_attachment_image_url($image['ID'], 'full') : '' ?>);background-size: cover;background-position: center">
     <div class="container-fluid   text-white h-100">
-        <div class="row  d-flex align-items-end   py-5   justify-content-between h-100" >
-            <div class="col-xxl-7 col-lg-10 col-xxl-5 ">
+        <div class="row  d-flex align-items-<?php echo $alignitems ?>   py-5   justify-content-between h-100">
+            <div class="col-xxl-5 col-xl-7 col-lg-10 col-xxl-5 ">
                 <?php if ($subtitle) echo "<span class='uppercase-subtitles'> $subtitle</span>"; ?>
                 <?php if ($title) echo "<h2 class='h3 pt-3' > $title</h2>"; ?>
                 <?php if ($description) echo "<div> $description</div>"; ?>

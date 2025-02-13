@@ -134,3 +134,25 @@ function getNounForm(int $number, string $nominativeSingular, string $nominative
     }
 }
 
+
+function custom_hidden_field_values($tag, $unused) {
+    if ($tag['type'] != 'hidden') {
+        return $tag;
+    }
+
+    $name = $tag['name'];
+    $my_current_lang = apply_filters( 'wpml_current_language', NULL );
+
+
+    switch ($name) {
+        case 'wpml_language':
+            $value = $my_current_lang;
+            break;
+
+    }
+
+    $tag['values'] = (array) $value;
+
+    return $tag;
+}
+add_filter('wpcf7_form_tag', 'custom_hidden_field_values', 10, 2);

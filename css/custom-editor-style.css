@@ -462,7 +462,7 @@ progress {
   --bs-body-font-family: var(--bs-font-sans-serif);
   --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
-  --bs-body-line-height: 1.5;
+  --bs-body-line-height: 1.25;
   --bs-body-color: #212529;
   --bs-body-bg: #F0F2F2;
   --bs-border-width: 1px;
@@ -902,7 +902,7 @@ progress {
   --bs-body-font-family: var(--bs-font-sans-serif);
   --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
-  --bs-body-line-height: 1.5;
+  --bs-body-line-height: 1.25;
   --bs-body-color: #212529;
   --bs-body-bg: #F0F2F2;
   --bs-border-width: 1px;
@@ -2248,7 +2248,7 @@ progress {
 }
 
 .lh-base {
-  line-height: 1.5 !important;
+  line-height: 1.25 !important;
 }
 
 .lh-lg {

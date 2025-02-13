@@ -425,6 +425,40 @@ div.photoSwipe_innerthumbs img {
 
   }
 }
+.yith-wcan-filters.filters-modal .clear-selection {
+  display: none!important;
+  height: 60px;
+  line-height: 60px;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  right: 0;
+  width: 100%!important;
+  bottom: 0;
+  border: none !important;
+  text-align: center;
+  text-decoration: underline !important;
+}
+
+.yith-wcan-filters.filters-modal.with-filter-button .filters-container > .clear-selection {
+  display: block!important;
+}
+
+.yith-wcan-filters.filters-modal .main-modal-button {
+  width: calc(100% - 60px )!important;
+  border-radius: 50px!important;
+  padding: 0 30px!important;
+  left: 30px!important;
+  bottom: 50px!important;
+  height: 44px;
+  line-height: 26px;
+}
+
+.yith-wcan-filters.filters-modal.with-filter-button .filters-container {
+  height: calc(100% - 149px);
+}
+
 .yith-wcan-active-filtersno-titles {
   display: flex;
   flex-wrap: wrap;

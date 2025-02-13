@@ -40,11 +40,11 @@ $class_ar='arv-13-lg arv-14';
 <div <?php echo esc_attr($anchor); ?>class="<?php echo esc_attr($class_name); ?> container-fluid  px-0 text-white overflow-hidden">
     <div class="row align-items-lg-end ">
         <div class="col-lg-6 p-lg-5 px-4 py-5 position-relative overflow-hidden zoom-img-hover <?php echo $class_ar?>" style="">
-            <div class="py-xl-5 h-100 d-flex align-items-end">
+            <div class="py-xl-5 h-100 d-flex align-items-end" style='max-width: 400px'>
                 <?php if ($image_right) echo "<div class=' '> " . wp_get_attachment_image($image_right['ID'], 'full', null, ['class' => 'position-absolute start-0 top-0 w-100 h-100', 'style' => 'object-fit: cover;']) . "</div>"; ?>
                 <div class="position-relative pt-5 mt-5">
                     <?php if ($subtitle_right) echo "<span class='uppercase-subtitles'> $subtitle_right</span>"; ?>
-                    <?php if ($title_right) echo "<h2 class='h3 pt-3' > $title_right</h2>"; ?>
+                    <?php if ($title_right) echo "<h2 class='h2 pt-3 lh-1' > $title_right</h2>"; ?>
                     <?php if ($description_right) echo "<div> $description_right</div>"; ?>
                     <?php
                     if ($link_right):
@@ -61,13 +61,13 @@ $class_ar='arv-13-lg arv-14';
             </div>
         </div>
         <div class="col-lg-6 p-lg-5 px-4 py-5 position-relative overflow-hidden zoom-img-hover <?php echo $class_ar?>" style="   ">
-            <div class="py-xl-5 h-100 d-flex align-items-end">
+            <div class="py-xl-5 h-100 d-flex align-items-end" style='max-width: 400px'>
                 <?php if ($image) echo "<div class=' '> " . wp_get_attachment_image($image['ID'], 'full', null, ['class' => 'position-absolute start-0 top-0 w-100 h-100', 'style' => 'object-fit: cover;']) . "</div>"; ?>
                 <div class="position-relative pt-5 mt-5">
 
                     <?php if ($subtitle) echo "<span class='uppercase-subtitles'> $subtitle</span>"; ?>
-                    <?php if ($title) echo "<h2 class='h3 pt-3' > $title</h2>"; ?>
-                    <?php if ($description) echo "<div> $description</div>"; ?>
+                    <?php if ($title) echo "<h2 class='h2 pt-3 lh-1' > $title</h2>"; ?>
+                    <?php if ($description) echo "<div > $description</div>"; ?>
                     <?php
                     if ($link):
                         $link_url = $link['url'];
