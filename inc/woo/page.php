@@ -101,13 +101,13 @@ function woo_product_page_image_in_mobile() {
     <?php
 }
 
-add_filter('the_title', 'woo_the_title', 10, 2);
-function woo_the_title($post_title, $post_id)
-{
-
-    return !is_admin() && get_field('custom_title', $post_id) ? get_field('custom_title', $post_id) : $post_title;
-
-}
+//add_filter('the_title', 'woo_the_title', 10, 2);
+//function woo_the_title($post_title, $post_id)
+//{
+//
+//    return !is_admin() && get_field('custom_title', $post_id) ? get_field('custom_title', $post_id) : $post_title;
+//
+//}
 
 add_filter('woocommerce_dropdown_variation_attribute_options_args', function ($args) {
 

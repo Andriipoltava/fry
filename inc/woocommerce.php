@@ -578,23 +578,24 @@ add_filter('yith_wcan_filter_get_formatted_terms_for_pa_weight', 'sort_by_int_fi
 add_filter('yith_wcan_filter_get_formatted_terms_for_pa_packaging', 'sort_by_int_filter', 10, 2);
 function sort_by_int_filter($result, $ob)
 {
-
-
+    
     $arrayNew = [];
+    $arrayNewValue = [];
     foreach ($result as $term_id => $value) {
-        $term_name = get_term($term_id)->name;
-        $float = str_replace(',', '.', $term_name);
-        $float = preg_replace('/[^0-9\.]/', "", $float); // only show the numbers and dots
-        $arrayNew[$term_id] = $float;
+        $arrayNew[] = $term_id;
     }
-    asort($arrayNew);
+    $terms = get_terms([
+        'include' => $arrayNew,
+        'orderby' => 'menu_order',
+        'order' => 'ASC',
+    ]);
 
-
-    foreach ($arrayNew as $key => $value) {
-        $arrayNew[$key] = $result[$key] ?: null;
-
+    foreach ($terms as $key => $term) {
+        $arrayNewValue[$term->term_id] = $result[$term->term_id] ?: null;
     }
-    return $arrayNew;
+
+    return $arrayNewValue;
+
 }
 
 
@@ -723,57 +724,7 @@ add_filter('body_class', function ($classes) {
  * @return WP_Query
  */
 
-add_filter('yith_wcan_filtered_products_query', function ($args) {
 
-//    global $wp_query;
-////    return $args;
-//    if (isset($_GET['product_cat'])) {
-//        $yith_wcan_query = $wp_query->get('product_cat');
-//        $yith_wcans = explode(',', $yith_wcan_query);
-//        $yith_wcans_new = [];
-//        if ($yith_wcans && count($yith_wcans) > 1) {
-//            foreach ($yith_wcans as $item) {
-//                $term = get_term_by('slug', $item, 'product_cat');
-//                $yith_wcans_new[$term->term_id] = $item;
-//            }
-//
-//            foreach ($yith_wcans_new as $key => $item) {
-//                $term = get_term($key, 'product_cat');
-//
-//                if (isset($yith_wcans_new[$term->parent])) {
-//                    unset($yith_wcans_new[$term->parent]);
-//                }
-//
-//            }
-//            $product_ids = get_posts([
-//                'post_type' => 'product',
-//                'fields' => 'ids',
-//                'tax_query' => [
-//                    [
-//                        'taxonomy' => 'product_cat',
-//                        'field' => 'term_id',
-//                        'terms' => array_keys($yith_wcans_new),
-//                        'operator' => 'IN'
-//                    ]
-//                ]
-//            ]);
-//
-//            if ($product_ids) {
-//                var_dump($product_ids);
-////                $args['post__in'] = $product_ids;
-//
-////                $wp_query->set('post__in', $product_ids);
-//            }
-//
-//
-//        }
-//
-//
-//    }
-
-    return $args;
-
-});
 function filter_qq($wpq)
 {
 
@@ -843,20 +794,22 @@ add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, 
     global $wp_query;
     $array = [];
 
-    $arg = $wp_query->query;
+
     $arg['posts_per_page'] = -1;
     $arg['fields'] = 'ids';
 
-    $loop = $_SESSION['yith_wcan_array'] ?? get_posts($arg);
+    $loop = $GLOBALS['posts'];
 
-
-    foreach ($loop as $post) {
-        $terms = get_the_terms($post, $term_q->taxonomy);
-        foreach ($terms as $term) {
-            if ($term->term_id == $term_id) {
-                $array[$post] = $post;
+    if ($loop) {
+        foreach ($loop as $post) {
+            $terms = get_the_terms($post->ID, $term_q->taxonomy);
+            foreach ($terms as $term) {
+                if ($term->term_id == $term_id) {
+                    $array[$post->ID] = $post->ID;
+                }
             }
         }
+
     }
 
 
@@ -894,11 +847,18 @@ add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, 
                 }
             }
         }
+
+        if (in_array('disabled', $term_options['additional_classes'])) {
+//            var_dump(count($array), $term_options['label'], $loop, get_posts($arg));
+        }
+
+
     } else {
 
         if (count($array) == 0) {
             $term_options['additional_classes'][] = 'disabled';
         }
+
 
     }
 
@@ -907,37 +867,6 @@ add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, 
 }, 10, 3);
 
 
-function get_post_in_products($wpq)
-{
-
-    if (is_tax() && !is_search()) { // Check if it's a taxonomy page
-        $term = get_queried_object(); // Get the current taxonomy term object
-        $termchildren[] = $term->term_id;
-
-        if (isset($term->parent) && $term->parent == 0) { // Check if the term has a parent
-            $termchildren = array_merge($termchildren, get_term_children($term->term_id, $term->taxonomy));
-        }
-
-        $args = array(
-            'post_type' => 'product',
-            'fields' => 'ids',
-            'numberposts' => -1,
-            'tax_query' => [
-                [
-                    'taxonomy' => 'product_cat',
-                    'field' => 'term_id',
-                    'terms' => $termchildren,
-                ]
-            ]
-        );
-        $products = get_posts($args);
-        if (count($products)) {
-            $wpq->set('post__in', $products);
-            $_SESSION['yith_wcan_query']=$wpq->query_vars;
-        }
-    }
-
-}
 
 add_filter('woocommerce_product_query', 'pre_get_posts_filter');
 
@@ -965,10 +894,7 @@ function pre_get_posts_filter($wpq)
 
                 $wpq->set('product_cat', $yith_wcans_new);
 
-                $_SESSION['yith_wcan_query']=$wpq->query_vars;
             }
-//            var_dump($wpq->query);
-
         }
 
     return $wpq;
@@ -1011,7 +937,7 @@ add_filter('yith_wcan_query_relevant_term_objects', function ($match, $taxonomy,
         $products = get_posts($args);
         $match_new = [];
 
-//        var_dump(get_term($term_id)->slug);
+
         foreach ($products as $product) {
             $terms = get_the_terms($product, $taxonomy);
             foreach ($terms as $term) {
@@ -1038,36 +964,3 @@ add_filter('yith_wcan_remove_current_term_from_active_filters', function ($show)
     return $show;
 });
 
-function get_list_filter()
-{
-
-    $yith_wcan_query = $_SESSION['yith_wcan_query'] ?? '';
-    if (empty($yith_wcan_query)) {
-        global $wp_query;
-        $yith_wcan_query = $wp_query->query_vars;
-    }
-    $array = [];
-    $arg = $yith_wcan_query;
-    $arg['posts_per_page'] = -1;
-    $loop = new WP_Query($arg);
-
-    if ($loop->have_posts()) :
-        // run the loop
-        while ($loop->have_posts()): $loop->the_post();
-            $array[] = get_the_ID();
-        endwhile;
-
-    endif;
-    wp_reset_postdata();
-    if (count($array)) {
-        $_SESSION['yith_wcan_array'] = $array;
-        return $array;
-    }
-
-    return null;
-}
-
-add_action('wp_head', function () {
-    get_list_filter();
-
-});
