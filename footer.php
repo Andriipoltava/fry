@@ -16,23 +16,10 @@ $title_footer = get_field('title_footer', 'options');
 $logo_footer = get_field('logo_footer', 'options');
 $logo_from_ua = get_field('logo_from_ua', 'options');
 $copyright = get_field('copyright', 'options');
+$footer_form = get_field('footer_form', 'options');
 
 ?>
-<!-- Modal -->
-<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <?php echo do_shortcode('[contact-form-7 id="1ecb7ee" title="Product form"]'); ?>
 
-            </div>
-
-        </div>
-    </div>
-</div>
 
 <div class="wrapper bg-black overflow-hidden" id="wrapper-footer">
 
@@ -105,9 +92,15 @@ $copyright = get_field('copyright', 'options');
                     <?php }; ?>
 
                 </div>
-                <div class="form-subscribe">
-                    <?php echo do_shortcode('[contact-form-7 id="abd1e89" title="Subscribe"]'); ?>
-                </div>
+
+
+                <?php if ($footer_form) {
+                    ?>
+                    <div class="form-subscribe">
+                        <?php echo  do_shortcode($footer_form); ?>
+                    </div>
+                    <?php
+                } ?>
                 <?php
                        $link = get_field('download_catalog', 'options');
                         if ($link):
