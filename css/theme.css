@@ -16918,9 +16918,13 @@ div.photoSwipe_innerthumbs img {
 .yith-wcan-filters.filters-modal .yith-wcan-filter {
   border-left: none;
   border-right: none;
-  padding: 20px 0;
-  margin-bottom: 15px;
+  padding: 24px 0;
+  margin-bottom: 0;
   border-radius: 0 !important;
+  border-bottom: none;
+}
+.yith-wcan-filters.filters-modal .yith-wcan-filter:last-child {
+  border-bottom: 1px solid rgb(221, 221, 221);
 }
 .yith-wcan-filters .filter-title {
   font-size: 0.75rem;

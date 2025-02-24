@@ -40,7 +40,7 @@ if (!empty($block['align'])) {
              style=" --img-bg: url( <?php echo  $imageBG ?>);--img-bg-mobile: url( <?php echo $imageBGmobile ?>);">
             <div class="col-12 offset-xxl-1 col-xl-11  py-sm-5 my-lg-5 pb-3 mb-md-5 px-4">
                 <?php if ($subtitle) echo "<span class='uppercase-subtitles'> $subtitle</span>"; ?>
-                <?php if ($title) echo "<h2 style='    word-break: break-all;' > $title</h2>"; ?>
+                <?php if ($title) echo "<h2> $title</h2>"; ?>
 
             </div>
             <div class="d-md-none" style="    height: 200px;"></div>

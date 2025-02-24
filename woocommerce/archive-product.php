@@ -83,13 +83,6 @@ get_header('shop');
                 </div>
                 <div class="col-lg-8 col-xxl-9 woo-loops">
                     <?php
-
-
-                    global $wp_query;
-                    $yith_wcan_query = $wp_query->query_vars;
-                    global $wp_the_query;
-
-
                     if (woocommerce_product_loop()) {
                     woocommerce_product_loop_start();
 
