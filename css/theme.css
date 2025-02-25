@@ -16392,6 +16392,26 @@ html {
   aspect-ratio: 16;
 }
 
+.arv-55 {
+  aspect-ratio: 1;
+}
+
+.arv-54 {
+  aspect-ratio: 1.25;
+}
+
+.arv-53 {
+  aspect-ratio: 1.6666666667;
+}
+
+.arv-52 {
+  aspect-ratio: 2.5;
+}
+
+.arv-51 {
+  aspect-ratio: 5;
+}
+
 @media (min-width: 576px) {
   .arv-31-sm {
     aspect-ratio: 3/1;
@@ -16401,6 +16421,21 @@ html {
   }
   .arv-43-sm {
     aspect-ratio: 4/3;
+  }
+  .arv-55-sm {
+    aspect-ratio: 1;
+  }
+  .arv-54-sm {
+    aspect-ratio: 1.25;
+  }
+  .arv-53-sm {
+    aspect-ratio: 1.6666666667;
+  }
+  .arv-52-sm {
+    aspect-ratio: 2.5;
+  }
+  .arv-51-sm {
+    aspect-ratio: 5;
   }
 }
 @media (min-width: 768px) {
@@ -16413,6 +16448,21 @@ html {
   .arv-43-md {
     aspect-ratio: 4/3;
   }
+  .arv-55-md {
+    aspect-ratio: 1;
+  }
+  .arv-54-md {
+    aspect-ratio: 1.25;
+  }
+  .arv-53-md {
+    aspect-ratio: 1.6666666667;
+  }
+  .arv-52-md {
+    aspect-ratio: 2.5;
+  }
+  .arv-51-md {
+    aspect-ratio: 5;
+  }
 }
 @media (min-width: 992px) {
   .arv-31-lg {
@@ -16423,6 +16473,21 @@ html {
   }
   .arv-43-lg {
     aspect-ratio: 4/3;
+  }
+  .arv-55-lg {
+    aspect-ratio: 1;
+  }
+  .arv-54-lg {
+    aspect-ratio: 1.25;
+  }
+  .arv-53-lg {
+    aspect-ratio: 1.6666666667;
+  }
+  .arv-52-lg {
+    aspect-ratio: 2.5;
+  }
+  .arv-51-lg {
+    aspect-ratio: 5;
   }
 }
 @media (min-width: 1200px) {
@@ -16435,6 +16500,21 @@ html {
   .arv-43-xl {
     aspect-ratio: 4/3;
   }
+  .arv-55-xl {
+    aspect-ratio: 1;
+  }
+  .arv-54-xl {
+    aspect-ratio: 1.25;
+  }
+  .arv-53-xl {
+    aspect-ratio: 1.6666666667;
+  }
+  .arv-52-xl {
+    aspect-ratio: 2.5;
+  }
+  .arv-51-xl {
+    aspect-ratio: 5;
+  }
 }
 @media (min-width: 1460px) {
   .arv-31-xxl {
@@ -16445,6 +16525,21 @@ html {
   }
   .arv-43-xxl {
     aspect-ratio: 4/3;
+  }
+  .arv-55-xxl {
+    aspect-ratio: 1;
+  }
+  .arv-54-xxl {
+    aspect-ratio: 1.25;
+  }
+  .arv-53-xxl {
+    aspect-ratio: 1.6666666667;
+  }
+  .arv-52-xxl {
+    aspect-ratio: 2.5;
+  }
+  .arv-51-xxl {
+    aspect-ratio: 5;
   }
 }
 .order-16 {

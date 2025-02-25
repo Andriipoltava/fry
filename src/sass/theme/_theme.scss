@@ -361,6 +361,11 @@ html {
 
   }
 }
+@for $i from 5 through 1 {
+  .arv-5#{$i} {
+    aspect-ratio: 5 / $i;
+  }
+}
 
 @each $breakpoint, $container-max-width in $container-max-widths {
   @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
@@ -373,6 +378,12 @@ html {
     .arv-43-#{$breakpoint} {
       aspect-ratio: 4 / 3;
     }
+    @for $i from 5 through 1 {
+      .arv-5#{$i}-#{$breakpoint} {
+        aspect-ratio: 5 / $i;
+      }
+    }
+
   }
 }
 
