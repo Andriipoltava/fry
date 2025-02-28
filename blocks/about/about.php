@@ -34,15 +34,24 @@ if (!empty($block['align'])) {
 
 ?>
 
-<div <?php echo esc_attr($anchor); ?>class="<?php echo esc_attr($class_name); ?> bg-dark p-md-5 ">
+<div <?php echo esc_attr($anchor); ?>class="<?php echo esc_attr($class_name); ?> bg-dark py-lg-5  py-4">
     <div class="container-fluid py-5 text-white"    >
-        <div class="row   d-flex align-items-lg-end  justify-content-between bg"
-             style=" --img-bg: url( <?php echo  $imageBG ?>);--img-bg-mobile: url( <?php echo $imageBGmobile ?>);">
-            <div class="col-12 offset-xxl-1 col-xl-11  py-sm-5 my-lg-5 pb-3 mb-md-5 px-4">
+        <div class="row   justify-content-center position-relative">
+
+            <div class="col-12 col-lg-6 d-flex justify-content-center py-lg-0 pb-4 pt-5  px-0 my-lg-0 mt-5 px-xxl-3">
+                <?php if ($image) {
+                    ?>
+                    <?php echo wp_get_attachment_image($image['ID'], 'full', null, ['class' => 'd-md-block d-none']); ?>
+                    <?php echo wp_get_attachment_image($imageMobile ? $imageMobile['ID'] : $image['ID'], 'full', null, ['class' => 'd-md-none']); ?>
+
+                    <?php
+                } ?>
+            </div>
+            <div class="col-12 col-xl-11  pb-sm-5 mb-lg-5 pb-3 mb-md-5 px-4 position-absolute top-0 me-xl-5">
                 <?php if ($subtitle) echo "<span class='uppercase-subtitles'> $subtitle</span>"; ?>
                 <?php if ($title) echo "<h2> $title</h2>"; ?>
             </div>
-            <div class="d-md-none" style="    height: 200px;"></div>
+
 
             <?php
             if ($link):
@@ -50,9 +59,9 @@ if (!empty($block['align'])) {
                 $link_title = $link['title'];
                 $link_target = $link['target'] ? $link['target'] : '_self';
                 ?>
-                <div class="col-lg-5 col-xl-4 offset-lg-7  pt-lg-5 mt-md-5 px-4 pb-md-0">
+                <div class=" col-lg-7  col-xl-5 offset-lg-4 offset-xl-7   px-4 pb-md-0 position-absolute bottom-0 mb-xl-3 pb-lg-5">
                     <?php if ($description) echo "<div> $description</div>"; ?>
-                    <div>
+                    <div class="mb-xxl-5 mt-2 pt-3">
                         <a class="link link-light mt-3" href="<?php echo esc_url($link_url); ?>"
                            target="<?php echo esc_attr($link_target); ?>"><?php echo esc_html($link_title); ?></a>
                     </div>

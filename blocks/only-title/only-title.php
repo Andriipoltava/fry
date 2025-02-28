@@ -33,7 +33,7 @@ $ar_tablet = get_field('image_proportions_to_tablet') ? get_field('image_proport
 $ar_mobile = get_field('image_proportions_to_mobile') ? get_field('image_proportions_to_mobile') : ' arv-54';
 ?>
 
-<div <?php echo esc_attr($anchor); ?>class="<?php echo esc_attr($class_name); ?> bg-dark    ">
+<div <?php echo esc_attr($anchor); ?>class="<?php echo esc_attr($class_name); ?> bg-dark">
     <div class="overflow-hidden d-flex align-items-center  py-2 text-white   <?php echo $ar_pc . ' ' . $ar_laptop . ' ' . $ar_tablet . ' ' . $ar_mobile ?> "
          style="background-image: url(<?php echo $image ? wp_get_attachment_image_url($image['ID'], 'full') : '' ?>);background-size: cover;background-repeat: no-repeat;background-position: center;background-color:#252525 ">
         <div class="container">
