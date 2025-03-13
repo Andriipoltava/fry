@@ -64,7 +64,7 @@ $style = implode('; ', $styles);
                         <?php echo wp_get_attachment_image($image['id'], 'full', null, ['class' => 'd-md-block d-none  w-100 arh-14  ofc']); ?>
                     <?php }; ?>
                     <?php if ($imageMobile) { ?>
-                        <?php echo wp_get_attachment_image($imageMobile['id'], 'full', null, ['class' => 'd-md-none  w-100 ar-1 ofc']); ?>
+                        <?php echo wp_get_attachment_image($imageMobile['id'], 'large', null, ['class' => 'd-md-none  w-100 ar-1 ofc']); ?>
                     <?php }; ?>
                 </div>
             <?php endif; ?>

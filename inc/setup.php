@@ -52,7 +52,7 @@ if (!function_exists('fry_theme_setup')) {
                 'footer_col_1' => __('Footer Column 1 Menu', 'fry_theme'),
                 'footer_col_2' => __('Footer Column 2 Menu', 'fry_theme'),
                 'footer_col_3' => __('Footer Column 3 Menu', 'fry_theme'),
-                'footer_col_4' => __('Footer Column 4 Menu', 'fry_theme'),
+//                'footer_col_4' => __('Footer Column 4 Menu', 'fry_theme'),
                 'footer_copyright' => __('Footer Copyright Menu', 'fry_theme'),
             )
         );

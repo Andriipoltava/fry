@@ -387,7 +387,7 @@ html {
   }
 }
 
-@for $i from 16 through 6 {
+@for $i from 30 through 6 {
   .order-#{$i} {
     order: $i;
   }

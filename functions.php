@@ -56,6 +56,39 @@ foreach ($fry_theme_includes as $file) {
     require_once get_theme_file_path($fry_theme_inc_dir . $file);
 }
 
+function remove_sitekit_meta_tags()
+{
+    if (home_url() !== 'https://fry.ua/') {
+        remove_action('wp_head', 'googlesitekit_add_meta_tags');
+    }
+}
+
+add_action('wp_head', 'remove_sitekit_meta_tags', 1);
+
+
+
+
+add_filter('woocommerce_get_breadcrumb', function ($crumbs) {
+    foreach ($crumbs as &$crumb) {
+        if (isset($crumb[0]) && $crumb[0] == 'Product Тип ловлі') {
+
+            $crumb[0] = __('Fishing type', 'woocommerce'); // Translate breadcrumb text
+        }
+    }
+    return $crumbs;
+});
+add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $item) {
+
+    if (is_tax('pa_type-of-fishing', $item)) {
+        $term_options['additional_classes'][]='filter_curren_page';
+    }
+    return $term_options;
+}, 10, 2);
+
+add_filter('woocommerce_attribute_label', function ($label, $name) {
+    return __($label, 'woocommerce'); // Forces translation
+}, 10, 2);
+
 
 function tt3child_register_acf_blocks()
 {

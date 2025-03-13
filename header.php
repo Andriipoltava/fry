@@ -16,6 +16,9 @@ $navbar_type = get_theme_mod('fry_theme_navbar_type', 'collapse');
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
+    <?php if (home_url() !== 'https://fry.ua/') {
+        echo '<meta name="robots" content="noindex, nofollow">';
+    } ?>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="profile" href="http://gmpg.org/xfn/11">

@@ -576,6 +576,12 @@ add_filter('woocommerce_sale_flash', function ($html) {
 });
 add_filter('yith_wcan_filter_get_formatted_terms_for_pa_weight', 'sort_by_int_filter', 10, 2);
 add_filter('yith_wcan_filter_get_formatted_terms_for_pa_packaging', 'sort_by_int_filter', 10, 2);
+add_filter('yith_wcan_filter_get_formatted_terms_for_pa_diameter', 'sort_by_int_filter', 10, 2);
+add_filter('yith_wcan_filter_get_formatted_terms_for_pa_hook-number', 'sort_by_int_filter', 10, 2);
+add_filter('yith_wcan_filter_get_formatted_terms_for_pa_length', 'sort_by_int_filter', 10, 2);
+add_filter('yith_wcan_filter_get_formatted_terms_for_pe-rating', 'sort_by_int_filter', 10, 2);
+add_filter('yith_wcan_filter_get_formatted_terms_for_pe-rating', 'sort_by_int_filter', 10, 2);
+add_filter('yith_wcan_filter_get_formatted_terms_for_swivel-number', 'sort_by_int_filter', 10, 2);
 function sort_by_int_filter($result, $ob)
 {
     
@@ -866,8 +872,77 @@ add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, 
     return $term_options;
 }, 10, 3);
 
+// modded for search by sku in variation to ;)
+
+function search_by_sku($search, &$query_vars)
+{
+    global $wpdb;
+    if (isset($query_vars->query['s']) && !empty($query_vars->query['s'])) {
+        // simple
+        $args = array(
+            'posts_per_page' => -1,
+            'post_type' => 'product',
+            'meta_query' => array(
+                array(
+                    'key' => '_sku',
+                    'value' => $query_vars->query['s'],
+                    'compare' => 'LIKE'
+                )
+            )
+        );
+
+        $posts = get_posts($args);
+        $get_post_ids = array();
+
+        foreach ($posts as $post) {
+            $get_post_ids[] = $post->ID;
+        }
 
 
+        // variation
+        $args = array(
+            'posts_per_page' => -1,
+            'post_type' => 'product_variation',
+            'meta_query' => array(
+                array(
+                    'key' => '_sku',
+                    'value' => $query_vars->query['s'],
+                    'compare' => 'LIKE'
+                )
+            )
+        );
+
+        $posts_variation = get_posts($args);
+
+        if (empty($posts_variation) && empty($posts)) return $search;
+
+        foreach ($posts_variation as $post) {
+            $get_post_ids[] = $post->post_parent;
+        }
+
+        if (sizeof($get_post_ids) > 0) {
+            $search = str_replace('AND (((', "AND ((({$wpdb->posts}.ID IN (" . implode(',', $get_post_ids) . ")) OR (", $search);
+        }
+    }
+    return $search;
+
+}
+
+add_filter('posts_search', 'search_by_sku', 999, 2);
+
+add_filter( 'woocommerce_redirect_single_search_result', '__return_false' );
+
+
+add_action('pre_get_posts', 'sortby_menuorder_query');
+
+function sortby_menuorder_query($query)
+{
+    if (isset($_REQUEST['s'])) {
+        $query->set('orderby', 'menu_order title');
+//        $query->set('orderby', 'menu_order ');
+        $query->set('order', 'ASC');
+    }
+}
 add_filter('woocommerce_product_query', 'pre_get_posts_filter');
 
 function pre_get_posts_filter($wpq)

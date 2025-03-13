@@ -22,6 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 $nominativeSingular = __( 'Showing the single result', 'fry_theme' ); // e.g.,
 $nominativePlural =__( 'position', 'fry_theme' ); // e.g.,
+
 $genitivePlural = __( 'positions', 'fry_theme' ); // e.g.,
 ?>
 <p class="woocommerce-result-count" <?php echo ( empty( $orderedby ) || 1 === intval( $total ) ) ? '' : 'role="alert" aria-relevant="all" data-is-sorted-by="true"'; ?>>
@@ -29,11 +30,19 @@ $genitivePlural = __( 'positions', 'fry_theme' ); // e.g.,
 
 	// phpcs:disable WordPress.Security
 	if ( 1 === intval( $total ) ) {
+        if ('Showing the single result' == $nominativeSingular) {
+            $nominativeSingular = $nominativePlural;
+
+        }
         echo  $total. ' '. $nominativeSingular;
 
 	} else  {
 
-        echo $total.' '.getNounForm($total,$nominativePlural,$nominativePlural,$genitivePlural);
+        if ('position' == $nominativePlural) {
+            $nominativeSingular = $nominativePlural;
+            $nominativePlural = $genitivePlural;
+        }
+        echo $total . ' ' . getNounForm($total, $nominativeSingular, $nominativePlural, $genitivePlural);
 	}
 	// phpcs:enable WordPress.Security
 	?>

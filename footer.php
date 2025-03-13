@@ -52,14 +52,25 @@ $footer_form = get_field('footer_form', 'options');
                 <div class="row justify-content-lg-end  gy-4 gx-4 gx-lg-5">
                     <?php $array_footer_menu = ['footer_col_1', 'footer_col_2', 'footer_col_3',];
                     foreach ($array_footer_menu as $location) {
-                        ?>
-                        <?php
                         $locations = get_nav_menu_locations(); //get all menu locations
                         $menu = wp_get_nav_menu_object($locations[$location]);//get the menu object
+
+                        $menu_title = $menu->name;
+
+
+                        if ($menu && !empty(get_field('menu_title', $menu))) {
+                            $menu_title = get_field('menu_title', $menu);
+                        }
+
+
+
+                        ?>
+                        <?php
+
                         ?>
                         <div class="col-xl-3 col-lg-auto col-6">
                             <h5 class="h6 pb-1 has-gray-color">
-                                <?php echo $menu->name; // n
+                                <?php echo $menu_title
                                 ?>
                             </h5>
                             <?php wp_nav_menu(
@@ -146,9 +157,10 @@ $footer_form = get_field('footer_form', 'options');
                     array(
                         'theme_location' => 'footer_copyright',
 
-                        'container_class' => '',
+                        'container_class' => 'menu-footer-copyright-container',
                         'container_id' => '',
                         'menu_class' => 'nav nav-light ',
+                        'menu_id' => 'menu-footer-copyright',
                         'fallback_cb' => '',
                         'depth' => 1,
                         'walker' => new Understrap_WP_Bootstrap_Navwalker(),
