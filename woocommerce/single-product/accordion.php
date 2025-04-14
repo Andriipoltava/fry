@@ -1,7 +1,14 @@
 <?php
 $heading = apply_filters('woocommerce_product_description_heading', __('Description', 'woocommerce'));
 $features = apply_filters('woocommerce_product_description_features', __('Features', 'woocommerce'));
-$features_content = get_field('features')
+$features_content = get_field('features');
+$my_current_lang = apply_filters('wpml_current_language', NULL);
+
+if ($my_current_lang != 'uk') {
+    $features_content = formatTextWithBr($features_content);
+}
+
+
 ?>
 
 <div class="accordion mt-4" id="accordionProduct">

@@ -483,6 +483,8 @@ function variation_data_custom_field_conditional_display($data, $product, $varia
     $html = '';
 //    var_dump($variation->get_attributes());
     $var_attr = $variation->get_attributes();
+    $my_current_lang = apply_filters('wpml_current_language', NULL);
+    $class = $my_current_lang == 'de' ? 'text-capitalize' : 'text-lowercase';
     foreach ($var_attr as $taxonomy => $values) {
 
 
@@ -492,7 +494,7 @@ function variation_data_custom_field_conditional_display($data, $product, $varia
         $html .= '<div>';
 
         $html .= '<div><b>' . $taxonomy_label . ':&nbsp;&nbsp;</b>';
-        $html .= '<span class="text-lowercase">' . $taxonomy_value . ' </span> ';
+        $html .= '<span class="' . $class . '">' . $taxonomy_value . ' </span> ';
         $html .= '</div>';
     }
     $attr_p = $product->get_attributes();
@@ -510,7 +512,7 @@ function variation_data_custom_field_conditional_display($data, $product, $varia
         $taxonomy_value = $product->get_attribute($attr['name']);
 
         $html .= '<b>' . $taxonomy_label . ':&nbsp;&nbsp;</b>';
-        $html .= '<span class="text-lowercase">' . $taxonomy_value . ' </span> ';
+        $html .= '<span class="'.$class.'">' . $taxonomy_value . ' </span> ';
         $html .= '</div>';
     }
 
@@ -596,11 +598,16 @@ function sort_by_int_filter($result, $ob)
         'order' => 'ASC',
     ]);
 
-    foreach ($terms as $key => $term) {
-        $arrayNewValue[$term->term_id] = $result[$term->term_id] ?: null;
+    if ($terms) {
+
+        foreach ($terms as $key => $term) {
+            $arrayNewValue[$term->term_id] = $result[$term->term_id] ?: null;
+        }
+        return $arrayNewValue;
     }
 
-    return $arrayNewValue;
+
+    return $result;
 
 }
 
@@ -734,7 +741,8 @@ add_filter('body_class', function ($classes) {
 function filter_qq($wpq)
 {
 
-    if (isset($_GET['product_cat'])) {
+
+    if (isset($_GET['product_cat']) && count(explode(',', $_GET['product_cat'])) > 1) {
         $yith_wcan_query_can = $wpq->get('yith_wcan_query');
         $product_cat = $wpq->get('product_cat');
         if (!empty($yith_wcan_query_can) && isset($yith_wcan_query_can['product_cat'])) {
@@ -817,13 +825,16 @@ add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, 
         }
 
     }
+//    var_dump($GLOBALS['query_string']);
+
 
 
     $qu = $_GET ?? [];
     if (isset($qu['yith_wcan'])) {
         unset($qu['yith_wcan']);
     }
-    if (isset($qu['product_cat'])) {
+
+    if (isset($qu['product_cat']) && count(explode(',', $qu['product_cat'])) > 1) {
         $product_cat = $qu['product_cat'];
         $product_cat_array = explode(',', $product_cat);
 
@@ -861,8 +872,9 @@ add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, 
 
     } else {
 
+
         if (count($array) == 0) {
-            $term_options['additional_classes'][] = 'disabled';
+//            $term_options['additional_classes'][] = 'disabled';
         }
 
 
@@ -874,7 +886,7 @@ add_filter('yith_wcan_tax_filter_item_args', function ($term_options, $term_id, 
 
 // modded for search by sku in variation to ;)
 
-function search_by_sku($search, &$query_vars)
+function search_by_sku($search, $query_vars)
 {
     global $wpdb;
     if (isset($query_vars->query['s']) && !empty($query_vars->query['s'])) {
@@ -937,14 +949,58 @@ add_action('pre_get_posts', 'sortby_menuorder_query');
 
 function sortby_menuorder_query($query)
 {
-    if (isset($_REQUEST['s'])) {
-        $query->set('orderby', 'menu_order title');
-//        $query->set('orderby', 'menu_order ');
-        $query->set('order', 'ASC');
+    if (is_admin() || !$query->is_main_query() || (!is_shop() && !is_product_category())) {
+        return;
     }
+
+
+    $meta_query = array(
+        'relation' => 'OR',
+        array(
+            'key' => 'menu_order_top',
+            'type' => 'EXISTS'
+        ),
+        array(
+            'key' => 'menu_order_top',
+            'type' => 'NOT EXISTS'
+        ),
+    );
+
+    $query->set('meta_query', $meta_query);
+    $query->set('meta_key', 'menu_order_top');
+
+
+    $query->set('orderby', 'menu_order_top , menu_order , title');
+
+    $query->set('orderby', array(
+        'meta_value_num' => 'DESC', // Highest priority products first
+        'menu_order' => 'ASC',  // Then sort by WooCommerce menu order
+        'title' => 'ASC'  // Finally, sort by most recent products
+    ));
+
+
 }
 add_filter('woocommerce_product_query', 'pre_get_posts_filter');
 
+function add_custom_sorting_option($sort_options)
+{
+    $sort_options['menu_order_top'] = 'Sort by Priority';
+    return $sort_options;
+}
+
+add_filter('woocommerce_get_catalog_ordering_args', 'apply_custom_sorting');
+add_filter('woocommerce_default_catalog_orderby_options', 'add_custom_sorting_option');
+add_filter('woocommerce_catalog_orderby', 'add_custom_sorting_option');
+
+function apply_custom_sorting($args)
+{
+    if (isset($_GET['orderby']) && $_GET['orderby'] == 'custom_sort') {
+        $args['orderby'] = 'meta_value_num';
+        $args['order'] = 'DESC';
+        $args['menu_order_top'] = 'menu_order_top';
+    }
+    return $args;
+}
 function pre_get_posts_filter($wpq)
 {
 
@@ -1038,4 +1094,54 @@ add_filter('yith_wcan_remove_current_term_from_active_filters', function ($show)
     }
     return $show;
 });
+
+add_action('admin_head', 'my_custom_fonts'); // admin_head is a hook my_custom_fonts is a function we are adding it to the hook
+
+function my_custom_fonts()
+{
+    echo '<style>
+    .menu_order_field{
+        display: none;
+    }
+  </style>';
+}
+
+
+// Display the custom fields in the "Linked Products" section
+add_action('woocommerce_product_options_advanced', 'woocom_linked_products_data_custom_field');
+
+// Save to custom fields
+add_action('woocommerce_process_product_meta', 'woocom_linked_products_data_custom_field_save');
+
+
+// Function to generate the custom fields
+function woocom_linked_products_data_custom_field()
+{
+    global $woocommerce, $post;
+
+    woocommerce_wp_text_input(
+        array(
+            'id' => 'menu_order_top',
+            'value' => get_post_meta($post->ID, 'menu_order_top', true) ?? '',
+            'label' => __('Menu order', 'woocommerce'),
+            'desc_tip' => true,
+            'description' => __('The higher the number, the higher the priority.', 'woocommerce'),
+            'type' => 'number',
+            'custom_attributes' => array(
+                'step' => '1',
+            ),
+        )
+    );
+
+    ?>
+
+    <?php
+}
+
+// Function the save the custom fields
+function woocom_linked_products_data_custom_field_save($post_id)
+{
+    $product_field_type = $_POST['menu_order_top'] ?? 0;
+    update_post_meta($post_id, 'menu_order_top', $product_field_type);
+}
 

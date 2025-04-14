@@ -24,12 +24,7 @@ defined( 'ABSPATH' ) || exit;
 		<?php
 		if ( is_home() && current_user_can( 'publish_posts' ) ) :
 
-			$kses = array( 'a' => array( 'href' => array() ) );
-			printf(
-				/* translators: 1: Link to WP admin new post page. */
-				'<p>' . wp_kses( __( 'Ready to publish your first post? <a href="%1$s">Get started here</a>.', 'fry_theme' ), $kses ) . '</p>',
-				esc_url( admin_url( 'post-new.php' ) )
-			);
+
 
 		elseif ( is_search() ) :
 

@@ -189,3 +189,19 @@ function custom_hidden_field_values($tag, $unused) {
     return $tag;
 }
 add_filter('wpcf7_form_tag', 'custom_hidden_field_values', 10, 2);
+
+function formatTextWithBr($text)
+{
+    // Remove leading spaces and first bullet point if it exists
+    $text = trim($text);
+
+    // Replace all bullet points except the first one
+    $formattedText = preg_replace('/(•)/', '<br>$1', $text, -1, $count);
+
+    // Remove the first <br> if it was added
+    if ($count > 0) {
+        $formattedText = preg_replace('/^<br>/', '', $formattedText);
+    }
+
+    return $formattedText;
+}
